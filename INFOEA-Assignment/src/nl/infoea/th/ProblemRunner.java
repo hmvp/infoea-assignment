@@ -33,20 +33,35 @@ import SAT.SAT;
  */
 public class ProblemRunner {
 
-	private static final long SEED = 0;
+	private static final long SEED = 123457890;
+	private static final long TIMELIMIT = 600000;
+	
+	public enum Problem
+	{
+		SAT,
+		BinPacking,
+		PersonnelScheduling,
+		FlowShop;
+	}
+	
+	public enum Heuristic
+	{
+		IteratedLocalSearch,
+		GeneticLocalSearch,
+		AdaptiveGeneticLocalSearch;
+	}
 
 	/**
 	 * This method creates the relevant HyperHeuristic object from the index given as a parameter.
 	 * after the HyperHeuristic object is created, its time limit is set.
 	 */
-	private static HyperHeuristic loadHyperHeuristic(int index, long timeLimit, Random rng) {
+	private static HyperHeuristic loadHyperHeuristic(Heuristic index, long timeLimit, Random rng) {
 		HyperHeuristic h = null;
-		switch (index) {
-		case 0: h = new IteratedLocalSearch(rng.nextLong()); h.setTimeLimit(timeLimit); break;
-		case 1: h = new GeneticLocalSearch(rng.nextLong()); h.setTimeLimit(timeLimit); break;
-		case 2: h = new AdaptiveGeneticLocalSearch(rng.nextLong()); h.setTimeLimit(timeLimit); break;
-		default: System.err.println("there is no hyper heuristic with this index");
-		System.exit(1);
+		switch (index)
+		{
+			case IteratedLocalSearch: h = new IteratedLocalSearch(rng.nextLong()); h.setTimeLimit(timeLimit); break;
+			case GeneticLocalSearch: h = new GeneticLocalSearch(rng.nextLong()); h.setTimeLimit(timeLimit); break;
+			case AdaptiveGeneticLocalSearch: h = new AdaptiveGeneticLocalSearch(rng.nextLong()); h.setTimeLimit(timeLimit); break;
 		}
 		return h;
 	}
@@ -56,57 +71,58 @@ public class ProblemRunner {
 	 * for each instance, the ProblemDomain is initialised with an identical seed for each hyper-heuristic.
 	 * this is so that each hyper-heuristic starts its search from the same initial solution.
 	 */
-	private static ProblemDomain loadProblemDomain(int index, long instanceseed) {
+	private static ProblemDomain loadProblemDomain(Problem index, long instanceseed) {
 		ProblemDomain p = null;
-		switch (index) {
-		case 0: p = new SAT(instanceseed); break;
-		case 1: p = new BinPacking(instanceseed); break;
-		case 2: p = new PersonnelScheduling(instanceseed); break;
-		case 3: p = new FlowShop(instanceseed); break;
-		default: System.err.println("there is no problem domain with this index");
-		System.exit(1);
-		}//end switch
+		switch (index)
+		{
+			case SAT: p = new SAT(instanceseed); break;
+			case BinPacking: p = new BinPacking(instanceseed); break;
+			case PersonnelScheduling: p = new PersonnelScheduling(instanceseed); break;
+			case FlowShop: p = new FlowShop(instanceseed); break;
+		}
 		return p;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
+		
+		ScoreKeeper sc = new ScoreKeeper();
 		//we first initialise the random number generator for this class
 		//it is useful to generate all of the random numbers from one seed, so that the experiments can be easily replicated
 		Random random_number_generator = new Random(SEED);
 		
 		//we set the number of hyper-heuristics involved in this example experiment, 
 		//and a time limit of 10 minutes for each hyper-heuristic run
-		int number_of_hyperheuristics = 3;
-		long time_limit = 600000;		
+		long time_limit = TIMELIMIT;		
 		
 		//loop through all four problem domains
-		for (int problem_domain_index = 0; problem_domain_index < 4; problem_domain_index++) {
+		for (Problem problem_domain : Problem.values()) {
 			
 			//to ensure that all hyperheuristics begin from the same initial solution, we set a seed for each problem domain
 			long problem_domain_seed = random_number_generator.nextInt();
 			
-			//loop through the five instances in the current problem domain
+			//loop through the ten instances in the current problem domain
 			for (int instance = 0; instance < 10; instance++) {
 				
 				//we retrieve the exact index of the instance we wish to use
 				
-				System.out.println("Problem Domain " + problem_domain_index);
+				System.out.println("Problem Domain " + problem_domain);
 				System.out.println("	Instance " + instance);
 				
 				//to ensure that all hyperheuristics begin from the same initial solution, we set a seed for each instance
 				long instance_seed = problem_domain_seed*(instance+1);
 				
 				//loop through the hyper-heuristics that we will test in this experiment
-				for (int hyper_heuristic_index = 0; hyper_heuristic_index < number_of_hyperheuristics; hyper_heuristic_index++) {
+				for (Heuristic hyper_heuristic : Heuristic.values()) {
 
 					//we create the problem domain object. we give the problem domain index and the unique 
 					//seed for this instance, so that the problem domain object is initialised in the same way,
 					//and each hyper-heuristic will begin from the same initial solution.
-					ProblemDomain problem_domain_object = loadProblemDomain(problem_domain_index, instance_seed);
+					ProblemDomain problem_domain_object = loadProblemDomain(problem_domain, instance_seed);
 					
 					//we create the hyper-heuristic object from the hyperheuristic index. we provide the time limit, 
 					//which is set after the object is created in the loadHyperHeuristic method
-					HyperHeuristic hyper_heuristic_object = loadHyperHeuristic(hyper_heuristic_index, time_limit, random_number_generator);
+					HyperHeuristic hyper_heuristic_object = loadHyperHeuristic(hyper_heuristic, time_limit, random_number_generator);
 					
 					//the required instance is loaded in the ProblemDomain object
 					problem_domain_object.loadInstance(instance);
@@ -133,6 +149,8 @@ public class ProblemRunner {
 					//print the number of calls to any low level heuristic
 					System.out.println("\t" + counter);
 					
+					//record score for analysis
+					sc.recordScore(hyper_heuristic, problem_domain, instance, hyper_heuristic_object.getBestSolutionValue());
 					
 					double[] fitnesstrace = hyper_heuristic_object.getFitnessTrace();
 					for (double f : fitnesstrace) {
