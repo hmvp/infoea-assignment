@@ -34,7 +34,7 @@ import SAT.SAT;
 public class ProblemRunner {
 
 	private static final long SEED = 123457890;
-	private static final long TIMELIMIT = 600000;
+	private static final long TIMELIMIT = 600;
 	
 	public enum Problem
 	{
@@ -159,5 +159,7 @@ public class ProblemRunner {
 				}
 			}
 		}
+		
+		sc.analyze();
 	}
 }

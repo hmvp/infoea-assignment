@@ -31,7 +31,13 @@ public class ScoreKeeper {
 	
 	public void analyze()
 	{
-		
+		for(Problem p : Problem.values())
+		{
+			for(int i = 0; i < 10; i++)
+			{
+				scores.get(p).get(i);
+			}
+		}
 		
 	}
 }
