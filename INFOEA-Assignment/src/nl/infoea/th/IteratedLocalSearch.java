@@ -100,7 +100,7 @@ public class IteratedLocalSearch extends HyperHeuristic {
 		while (!hasTimeExpired()) {
 
 			// Create list with one random instance of requested heuristic types
-			int[] heuriticsToApply =
+			int[] heuristicsToApply =
 					new int[] {
 							getRandomHeuristicOfType(problem,
 									HeuristicType.MUTATION),
@@ -109,8 +109,10 @@ public class IteratedLocalSearch extends HyperHeuristic {
 							getRandomHeuristicOfType(problem,
 									HeuristicType.LOCAL_SEARCH) };
 			
+			// TODO: check for -1 values in heuristicsToApply and remove them.
+
 			// TODO: something with intensityOfMutation
-			
+
 			// apply the chosen heuristics to the solution at index 0 in the
 			// memory
 			// the new solution is then stored at index 1 of the solution memory
@@ -119,7 +121,7 @@ public class IteratedLocalSearch extends HyperHeuristic {
 			SortedMap<Double, Integer> runHeuristics =
 					new TreeMap<Double, Integer>();
 
-			for (int heuristicToApply : heuriticsToApply) {
+			for (int heuristicToApply : heuristicsToApply) {
 
 				double heuristicObjectiveFunctionValue =
 						problem.applyHeuristic(heuristicToApply, 0, 1);
@@ -128,6 +130,7 @@ public class IteratedLocalSearch extends HyperHeuristic {
 						- heuristicObjectiveFunctionValue, heuristicToApply);
 			}
 
+			// Get the best result
 			double bestDeltaFitness = runHeuristics.firstKey();
 
 			// all of the problem domains are implemented as minimisation
@@ -158,8 +161,12 @@ public class IteratedLocalSearch extends HyperHeuristic {
 	private int getRandomHeuristicOfType(ProblemDomain problem,
 			HeuristicType type) {
 		int[] heuristics = problem.getHeuristicsOfType(type);
-		int selected = rng.nextInt(heuristics.length);
-		return heuristics[selected];
+		if (heuristics != null) {
+			int selected = rng.nextInt(heuristics.length);
+			return heuristics[selected];
+		} else {
+			return -1;
+		}
 	}
 
 	/**
