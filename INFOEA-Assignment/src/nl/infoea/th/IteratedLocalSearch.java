@@ -88,16 +88,32 @@ public class IteratedLocalSearch extends HyperHeuristic {
 		// as this changes depending on the problem domain
 		int numberOfHeuristics = problem.getNumberOfHeuristics();
 
-		// initialise the variable which keeps track of the current objective
-		// function value
-		double currentObjectiveFunctionValue = Double.POSITIVE_INFINITY;
-
-		// initialise the solution at index 0 in the solution memory array
-		problem.initialiseSolution(0);
+		// Initialize a population of 10 and record the best solution.
+		int solutionMemorySize = 1;
+		problem.setMemorySize(solutionMemorySize);
+		double[] currentObjectiveFunctionValues =
+				new double[solutionMemorySize];
+		int bestSolutionIndex = 0;
+		double bestSolutionValue = Double.POSITIVE_INFINITY;
+		for (int x = 0; x < solutionMemorySize; x++) {
+			problem.initialiseSolution(x);
+			currentObjectiveFunctionValues[x] = problem.getFunctionValue(x);
+			if (currentObjectiveFunctionValues[x] < bestSolutionValue) {
+				bestSolutionValue = currentObjectiveFunctionValues[x];
+				bestSolutionIndex = x;
+			}
+		}
 
 		// the main loop of any hyper-heuristic, which checks if the time limit
 		// has been reached
 		while (!hasTimeExpired()) {
+
+			int mutationHeuristicToApply =
+					getRandomHeuristicOfType(problem, HeuristicType.MUTATION);
+
+			int ruinRecreateHeuristicToApply =
+					getRandomHeuristicOfType(problem,
+							HeuristicType.RUIN_RECREATE);
 
 			// Create list with one random instance of requested heuristic types
 			int[] heuristicsToApply =
@@ -108,56 +124,45 @@ public class IteratedLocalSearch extends HyperHeuristic {
 									HeuristicType.RUIN_RECREATE),
 							getRandomHeuristicOfType(problem,
 									HeuristicType.LOCAL_SEARCH) };
-			
-			// TODO: check for -1 values in heuristicsToApply and remove them.
 
 			// TODO: something with intensityOfMutation
 
-			// apply the chosen heuristics to the solution at index 0 in the
-			// memory
-			// the new solution is then stored at index 1 of the solution memory
-			// while we decide whether to accept it
-
+			// Map to track which heuristic type performs best
 			SortedMap<Double, Integer> runHeuristics =
 					new TreeMap<Double, Integer>();
 
 			for (int heuristicToApply : heuristicsToApply) {
 
+				// Apply heuristic on best solution
 				double heuristicObjectiveFunctionValue =
-						problem.applyHeuristic(heuristicToApply, 0, 1);
+						problem.applyHeuristic(heuristicToApply,
+								bestSolutionIndex, bestSolutionIndex);
 
-				runHeuristics.put(currentObjectiveFunctionValue
-						- heuristicObjectiveFunctionValue, heuristicToApply);
+				double deltaFitness =
+						heuristicObjectiveFunctionValue
+								- currentObjectiveFunctionValues[bestSolutionIndex];
+				// store in map to get the best (smallest value) out.
+				runHeuristics.put(deltaFitness, heuristicToApply);
 			}
 
 			// Get the best result
 			double bestDeltaFitness = runHeuristics.firstKey();
 
-			// all of the problem domains are implemented as minimisation
-			// problems. A lower fitness means a better solution.
-			if (bestDeltaFitness > 0) {
-				// if there is an improvement then we 'accept' the solution by
-				// copying the new solution into memory index 0
-				problem.copySolution(1, 0);
-				// we also set the current objective function value to the new
-				// function value, as the new solution is now the current
-				// solution
-				currentObjectiveFunctionValue = bestDeltaFitness;
-			} else {
-				// if there is not an improvement in solution quality then we
-				// accept the solution with a 50% probability
-				if (rng.nextBoolean()) {
-					// the process for 'accepting' a solution is the same as
-					// above
-					problem.copySolution(1, 0);
-					currentObjectiveFunctionValue = bestDeltaFitness;
-				}
-			}
 			// one iteration has been completed, so we return to the start of
 			// the main loop and check if the time has expired
 		}
 	}
 
+	/**
+	 * Gets a random heuristic of specified type. If non exists gets random
+	 * heuristic.
+	 * 
+	 * @param problem
+	 *            ProblemDomain the heuristics are run on
+	 * @param type
+	 *            Type of heuristic
+	 * @return Heuristic of specified type or random if none found.
+	 */
 	private int getRandomHeuristicOfType(ProblemDomain problem,
 			HeuristicType type) {
 		int[] heuristics = problem.getHeuristicsOfType(type);
@@ -165,7 +170,7 @@ public class IteratedLocalSearch extends HyperHeuristic {
 			int selected = rng.nextInt(heuristics.length);
 			return heuristics[selected];
 		} else {
-			return -1;
+			return rng.nextInt(problem.getNumberOfInstances());
 		}
 	}
 
