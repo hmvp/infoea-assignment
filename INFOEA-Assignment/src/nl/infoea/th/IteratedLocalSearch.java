@@ -1,11 +1,5 @@
 package nl.infoea.th;
 
-import java.util.PriorityQueue;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
-import nl.infoea.th.ProblemRunner.Heuristic;
 import AbstractClasses.HyperHeuristic;
 import AbstractClasses.ProblemDomain;
 import AbstractClasses.ProblemDomain.HeuristicType;

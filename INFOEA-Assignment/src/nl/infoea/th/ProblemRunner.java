@@ -38,7 +38,7 @@ import SAT.SAT;
 public class ProblemRunner {
 
 	private static final long SEED = 123457890;
-	private static final long TIMELIMIT = 600;
+	private static final long TIMELIMIT = 6000;
 	public static final int RUNS = 5;
 
 	public enum Problem {
