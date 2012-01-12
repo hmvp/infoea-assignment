@@ -12,11 +12,16 @@ import AbstractClasses.ProblemDomain.HeuristicType;
 
 public class GeneticLocalSearch extends HyperHeuristic {
 
+	private SortedMap<Double, Integer> solutions;
+	private int workingMemoryLocation;
+
 	/**
 	 * creates a new ExampleHyperHeuristic object with a random seed
 	 */
 	public GeneticLocalSearch(long seed) {
 		super(seed);
+		// store solutions sorted by fitness, to easily get the worst solution.
+		solutions = new TreeMap<Double, Integer>();
 	}
 
 	/**
@@ -31,44 +36,73 @@ public class GeneticLocalSearch extends HyperHeuristic {
 		// as this changes depending on the problem domain
 		// int numberOfHeuristics = problem.getNumberOfHeuristics();
 
-		double currentObjectiveFunctionValues = Double.POSITIVE_INFINITY;
+		int populationSize = 10;
+		problem.setMemorySize(populationSize + 1); // 1 extra for heuristics
+													// working memory
+		workingMemoryLocation = populationSize;
+		for (int i = 0; i <= populationSize; i++) {
+			problem.initialiseSolution(i);
 
-		// initialise the solution at index 0 in the solution memory array
-		problem.initialiseSolution(0);
-		problem.setMemorySize(2);
+			// Keep track of worst solution
+			solutions.put(problem.getFunctionValue(i), i);
+		}
 
 		// the main loop of any hyper-heuristic, which checks if the time limit
 		// has been reached
 		while (!hasTimeExpired()) {
 
-			int mutationHeuristicToApply =
+			int crossoverHeuristicToApply =
 					Util.getRandomHeuristicOfType(rng, problem,
-							HeuristicType.MUTATION);
+							HeuristicType.CROSSOVER);
 
 			int localSearchHeuristicToApply =
 					Util.getRandomHeuristicOfType(rng, problem,
 							HeuristicType.LOCAL_SEARCH);
 
-			problem.applyHeuristic(mutationHeuristicToApply, 0, 1);
-			double newObjFunctionValue =
-					problem.applyHeuristic(localSearchHeuristicToApply, 1, 1);
+			int parent1Location = rng.nextInt(populationSize);
+			int parent2Location = rng.nextInt(populationSize);
 
-			double delta = currentObjectiveFunctionValues - newObjFunctionValue;
-
-			// all of the problem domains are implemented as minimisation
-			// problems. A lower fitness means a better solution.
-			if (delta > 0 || rng.nextBoolean()) {
-				// if there is an improvement then we 'accept' the solution by
-				// copying the new solution into memory index 0
-				problem.copySolution(1, 0);
-				// we also set the current objective function value to the new
-				// function value, as the new solution is now the current
-				// solution
-				currentObjectiveFunctionValues = newObjFunctionValue;
+			// .5 chance to do crossover
+			if (rng.nextBoolean()) {
+				double outcome =
+						problem.applyHeuristic(crossoverHeuristicToApply,
+								parent1Location, parent2Location,
+								workingMemoryLocation);
+				double lsOutcome =
+						problem.applyHeuristic(localSearchHeuristicToApply,
+								workingMemoryLocation, workingMemoryLocation);
+				process(problem, lsOutcome);
+			} else { // else do LS
+				double outcome1 =
+						problem.applyHeuristic(localSearchHeuristicToApply,
+								parent1Location, workingMemoryLocation);
+				process(problem, outcome1);
+				double outcome2 =
+						problem.applyHeuristic(localSearchHeuristicToApply,
+								parent2Location, workingMemoryLocation);
+				process(problem, outcome2);
 			}
 
 			// one iteration has been completed, so we return to the start of
 			// the main loop and check if the time has expired
+		}
+	}
+
+	/**
+	 * 
+	 * @param problem
+	 * @param outcome
+	 */
+	private void process(ProblemDomain problem, double outcome) {
+		// replace worst solution if better
+		// last in solutions is worst, since problem is minimum based
+		double worstSolutionKey = solutions.lastKey();
+
+		if (outcome < worstSolutionKey) {
+			int worstSolutionId = solutions.get(worstSolutionKey);
+			problem.copySolution(workingMemoryLocation, worstSolutionId);
+			solutions.remove(worstSolutionKey);
+			solutions.put(outcome, worstSolutionId);
 		}
 	}
 
