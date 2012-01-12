@@ -39,13 +39,14 @@ public class ProblemRunner {
 
 	private static final long SEED = 123457890;
 	private static final long TIMELIMIT = 600;
+	public static final int RUNS = 5;
 
 	public enum Problem {
 		SAT, BinPacking, PersonnelScheduling, FlowShop;
 	}
 
 	public enum Heuristic {
-		IteratedLocalSearch, GeneticLocalSearch, AdaptiveGeneticLocalSearch;
+		ILS, GLS, AGLS;
 	}
 
 	/**
@@ -57,15 +58,15 @@ public class ProblemRunner {
 			long timeLimit, Random rng) {
 		HyperHeuristic h = null;
 		switch (index) {
-		case IteratedLocalSearch:
+		case ILS:
 			h = new IteratedLocalSearch(rng.nextLong());
 			h.setTimeLimit(timeLimit);
 			break;
-		case GeneticLocalSearch:
+		case GLS:
 			h = new GeneticLocalSearch(rng.nextLong());
 			h.setTimeLimit(timeLimit);
 			break;
-		case AdaptiveGeneticLocalSearch:
+		case AGLS:
 			h = new AdaptiveGeneticLocalSearch(rng.nextLong());
 			h.setTimeLimit(timeLimit);
 			break;
