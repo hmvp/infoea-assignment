@@ -82,6 +82,11 @@ public class IteratedLocalSearch extends HyperHeuristic {
 		// as this changes depending on the problem domain
 		int numberOfHeuristics = problem.getNumberOfHeuristics();
 
+		problem.setMemorySize(2);
+
+		// initialise the solution at index 0 in the solution memory array
+		problem.initialiseSolution(0);
+
 		double currentObjectiveFunctionValues = Double.POSITIVE_INFINITY;
 
 		// the main loop of any hyper-heuristic, which checks if the time limit
@@ -92,18 +97,24 @@ public class IteratedLocalSearch extends HyperHeuristic {
 					getRandomHeuristicOfType(problem, HeuristicType.MUTATION);
 
 			int localSearchHeuristicToApply =
-					getRandomHeuristicOfType(problem, HeuristicType.LOCAL_SEARCH);
-			
+					getRandomHeuristicOfType(problem,
+							HeuristicType.LOCAL_SEARCH);
+
 			problem.applyHeuristic(mutationHeuristicToApply, 0, 1);
-			double newObjFunctionValue = problem.applyHeuristic(localSearchHeuristicToApply, 1, 2);
+			double newObjFunctionValue =
+					problem.applyHeuristic(localSearchHeuristicToApply, 1, 1);
 
 			double delta = currentObjectiveFunctionValues - newObjFunctionValue;
 
-			//all of the problem domains are implemented as minimisation problems. A lower fitness means a better solution.
+			// all of the problem domains are implemented as minimisation
+			// problems. A lower fitness means a better solution.
 			if (delta > 0 || rng.nextBoolean()) {
-				//if there is an improvement then we 'accept' the solution by copying the new solution into memory index 0
-				problem.copySolution(2, 0);
-				//we also set the current objective function value to the new function value, as the new solution is now the current solution
+				// if there is an improvement then we 'accept' the solution by
+				// copying the new solution into memory index 0
+				problem.copySolution(1, 0);
+				// we also set the current objective function value to the new
+				// function value, as the new solution is now the current
+				// solution
 				currentObjectiveFunctionValues = newObjFunctionValue;
 			}
 
