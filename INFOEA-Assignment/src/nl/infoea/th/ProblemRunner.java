@@ -38,7 +38,7 @@ import SAT.SAT;
 public class ProblemRunner {
 
 	private static final long SEED = 123457890;
-	private static final long TIMELIMIT = 600;
+	private static final long TIMELIMIT = 6000;
 	public static final int RUNS = 5;
 
 	public enum Problem {
@@ -199,9 +199,16 @@ public class ProblemRunner {
 					double[] fitnesstrace = hyperHeuristic.getFitnessTrace();
 					System.out.print("\tFitness Trace: ");
 					for (double f : fitnesstrace) {
-						System.out.print(f + " ");
+						System.out.print(f + ", ");
 					}
 					System.out.println();
+					System.out.print("\tFitness Trace (R): ");
+					for (int r = 0; r < fitnesstrace.length; r++) {
+						System.out.print(String.format("%s;%s;%s;%s\n",
+								problem.name(), heuristic.name(), r,
+								fitnesstrace[r]));
+					}
+
 				}
 			}
 		}
