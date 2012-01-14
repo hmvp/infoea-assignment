@@ -38,7 +38,7 @@ import SAT.SAT;
 public class ProblemRunner {
 
 	private static final long SEED = 123457890;
-	private static final long TIMELIMIT = 6000;
+	private static final long TIMELIMIT = 600000;
 	public static final int RUNS = 5;
 
 	public enum Problem {
@@ -112,6 +112,10 @@ public class ProblemRunner {
 		// experiment,
 		// and a time limit of 10 minutes for each hyper-heuristic run
 		long timeLimit = TIMELIMIT;
+		
+		//5 runs
+		for (int run = 0; run < RUNS; run++)
+		{	
 
 		// loop through all four problem domains
 		for (Problem problem : Problem.values()) {
@@ -167,50 +171,13 @@ public class ProblemRunner {
 					// a solution
 					hyperHeuristic.run();
 
-					// for this example, we use the record within each problem
-					// domain of the number of times each low level heuristic
-					// was called.
-					// we sum the results to obtain the total number of times
-					// that a low level heuristic was called
-					int[] i = problemDomain.getHeuristicCallRecord();
-					int counter = 0;
-					for (int y : i) {
-						counter += y;
-					}
-
-					// we print the results of this hyper-heuristic on this
-					// problem instance
-					// print the name of this hyper-heuristic
-					System.out.print("\tHYPER HEURISTIC "
-							+ hyperHeuristic.toString());
-					// print the best solution found within the time limit
-					System.out.print("\tBest: "
-							+ hyperHeuristic.getBestSolutionValue());
-					// print the elapsed time in seconds
-					System.out.print("\tTime Elapsed: "
-							+ (hyperHeuristic.getElapsedTime() / 1000.0));
-					// print the number of calls to any low level heuristic
-					System.out.println("\t Heuristic Calls: " + counter);
-
 					// record score for analysis
 					sc.recordScore(heuristic, problem, instance,
-							hyperHeuristic.getBestSolutionValue());
-
-					double[] fitnesstrace = hyperHeuristic.getFitnessTrace();
-					System.out.print("\tFitness Trace: ");
-					for (double f : fitnesstrace) {
-						System.out.print(f + ", ");
-					}
-					System.out.println();
-					System.out.print("\tFitness Trace (R): ");
-					for (int r = 0; r < fitnesstrace.length; r++) {
-						System.out.print(String.format("%s;%s;%s;%s\n",
-								problem.name(), heuristic.name(), r,
-								fitnesstrace[r]));
-					}
+							problemDomain, hyperHeuristic);
 
 				}
 			}
+		}
 		}
 
 		sc.analyze();
