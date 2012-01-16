@@ -1,6 +1,9 @@
 package nl.infoea.th;
 
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import AbstractClasses.HyperHeuristic;
 import AbstractClasses.ProblemDomain;
@@ -35,17 +38,26 @@ import SAT.SAT;
  * found after the hyper-heuristic exceeds its time limit. So the best solution
  * that is printed at the end has been found within the time limit.
  */
-public class ProblemRunner {
+public class ProblemRunner 
+{
 
+	public static final int RUNS = 5;//5
+	public static final int INSTANCES = 10;//10
+	public static final Problem[] PROBLEMS = Problem.values();//Problem.values()
+	public static final Heuristic[] HEURISTICS = Heuristic.values();//Heuristic.values()
+	private static final int THREADS = 2;
 	private static final long SEED = 123457890;
-	private static final long TIMELIMIT = 60;
-	public static final int RUNS = 5;
+	private static final long TIMELIMIT = 600000;//600000
 
-	public enum Problem {
+
+
+	public enum Problem 
+	{
 		SAT, BinPacking, PersonnelScheduling, FlowShop;
 	}
 
-	public enum Heuristic {
+	public enum Heuristic 
+	{
 		ILS, GLS, AGLS;
 	}
 
@@ -55,21 +67,23 @@ public class ProblemRunner {
 	 * time limit is set.
 	 */
 	private static HyperHeuristic loadHyperHeuristic(Heuristic index,
-			long timeLimit, Random rng) {
+			long timeLimit, Random rng) 
+	{
 		HyperHeuristic h = null;
-		switch (index) {
-		case ILS:
-			h = new IteratedLocalSearch(rng.nextLong());
-			h.setTimeLimit(timeLimit);
-			break;
-		case GLS:
-			h = new GeneticLocalSearch(rng.nextLong());
-			h.setTimeLimit(timeLimit);
-			break;
-		case AGLS:
-			h = new AdaptiveGeneticLocalSearch(rng.nextLong());
-			h.setTimeLimit(timeLimit);
-			break;
+		switch (index) 
+		{
+			case ILS:
+				h = new IteratedLocalSearch(rng.nextLong());
+				h.setTimeLimit(timeLimit);
+				break;
+			case GLS:
+				h = new GeneticLocalSearch(rng.nextLong());
+				h.setTimeLimit(timeLimit);
+				break;
+			case AGLS:
+				h = new AdaptiveGeneticLocalSearch(rng.nextLong());
+				h.setTimeLimit(timeLimit);
+				break;
 		}
 		return h;
 	}
@@ -81,102 +95,126 @@ public class ProblemRunner {
 	 * hyper-heuristic starts its search from the same initial solution.
 	 */
 	private static ProblemDomain loadProblemDomain(Problem index,
-			long instanceseed) {
+			long instanceseed) 
+	{
 		ProblemDomain p = null;
-		switch (index) {
-		case SAT:
-			p = new SAT(instanceseed);
-			break;
-		case BinPacking:
-			p = new BinPacking(instanceseed);
-			break;
-		case PersonnelScheduling:
-			p = new PersonnelScheduling(instanceseed);
-			break;
-		case FlowShop:
-			p = new FlowShop(instanceseed);
-			break;
+		switch (index) 
+		{
+			case SAT:
+				p = new SAT(instanceseed);
+				break;
+			case BinPacking:
+				p = new BinPacking(instanceseed);
+				break;
+			case PersonnelScheduling:
+				p = new PersonnelScheduling(instanceseed);
+				break;
+			case FlowShop:
+				p = new FlowShop(instanceseed);
+				break;
 		}
 		return p;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) 
+	{
 
-		ScoreKeeper sc = new ScoreKeeper();
+		//New Scorekeeper
+		final ScoreKeeper sc = new ScoreKeeper();
+		
 		// we first initialise the random number generator for this class
 		// it is useful to generate all of the random numbers from one seed, so
 		// that the experiments can be easily replicated
-		Random randomNumberGenerator = new Random(SEED);
-
-		// we set the number of hyper-heuristics involved in this example
-		// experiment,
-		// and a time limit of 10 minutes for each hyper-heuristic run
-		long timeLimit = TIMELIMIT;
+		final Random randomNumberGenerator = new Random(SEED);
 		
-		sc.init();
-		
-		//5 runs
-		for (int run = 0; run < RUNS; run++)
-		{	
-
+		//Create a threadpool of two threads
+		ExecutorService es = Executors.newFixedThreadPool(THREADS);
+				
+		//loop through runs
+		for (int i = 0; i < RUNS; i++)
+		{	final int run = i;
+			
 			// loop through all four problem domains
-			for (Problem problem : Problem.values()) {
+			for (final Problem problem : PROBLEMS)
+			{
 	
 				// to ensure that all hyperheuristics begin from the same initial
 				// solution, we set a seed for each problem domain
 				long problemDomainSeed = randomNumberGenerator.nextInt();
 	
 				// loop through the ten instances in the current problem domain
-				for (int instance = 0; instance < 10; instance++) {
-	
+				for (int j = 0; j < INSTANCES; j++) 
+				{	final int instance = j;
+					
 					// to ensure that all hyperheuristics begin from the same
 					// initial solution, we set a seed for each instance
-					long instanceSeed = problemDomainSeed * (instance + 1);
+					final long instanceSeed = problemDomainSeed * (instance + 1);
 	
 					// loop through the hyper-heuristics that we will test in this
 					// experiment
-					for (Heuristic heuristic : Heuristic.values()) {
+					for (final Heuristic heuristic : HEURISTICS)
+					{
 	
-						// we create the problem domain object. we give the problem
-						// domain index and the unique
-						// seed for this instance, so that the problem domain object
-						// is initialised in the same way,
-						// and each hyper-heuristic will begin from the same initial
-						// solution.
-						ProblemDomain problemDomain =
-								loadProblemDomain(problem, instanceSeed);
-	
-						// we create the hyper-heuristic object from the
-						// hyperheuristic index. we provide the time limit,
-						// which is set after the object is created in the
-						// loadHyperHeuristic method
-						HyperHeuristic hyperHeuristic =
-								loadHyperHeuristic(heuristic, timeLimit,
-										randomNumberGenerator);
-	
-						// the required instance is loaded in the ProblemDomain
-						// object
-						problemDomain.loadInstance(instance);
-	
-						// critically, the ProblemDomain object is provided to the
-						// HyperHeuristic object, so that it knows which problem to
-						// solve
-						hyperHeuristic.loadProblemDomain(problemDomain);
-	
-						// now that all objects have been initialised, the current
-						// hyper-heuristic is run on the current instance to produce
-						// a solution
-						hyperHeuristic.run();
-	
-						// record score for analysis
-						sc.recordScore(run, heuristic, problem, instance,
-								problemDomain, hyperHeuristic);
-	
+						//Create a new runnable
+						es.execute(new Runnable()
+						{
+
+							@Override
+							public void run()
+							{
+								// we create the problem domain object. we give the problem
+								// domain index and the unique
+								// seed for this instance, so that the problem domain object
+								// is initialised in the same way,
+								// and each hyper-heuristic will begin from the same initial
+								// solution.
+								ProblemDomain problemDomain =
+										loadProblemDomain(problem, instanceSeed);
+			
+								// we create the hyper-heuristic object from the
+								// hyperheuristic index. we provide the time limit,
+								// which is set after the object is created in the
+								// loadHyperHeuristic method
+								HyperHeuristic hyperHeuristic =
+										loadHyperHeuristic(heuristic, TIMELIMIT,
+												randomNumberGenerator);
+			
+								// the required instance is loaded in the ProblemDomain
+								// object
+								problemDomain.loadInstance(instance);
+			
+								// critically, the ProblemDomain object is provided to the
+								// HyperHeuristic object, so that it knows which problem to
+								// solve
+								hyperHeuristic.loadProblemDomain(problemDomain);
+			
+								// now that all objects have been initialised, the current
+								// hyper-heuristic is run on the current instance to produce
+								// a solution
+								hyperHeuristic.run();
+								
+								// record score for analysis
+								sc.recordScore(run, heuristic, problem, instance,
+										problemDomain, hyperHeuristic);
+							}
+						});
 					}
 				}
 			}
 		}
-
-		sc.analyze();
+		
+		try 
+		{
+			//Wait untill everything is finished
+			es.shutdown();
+			es.awaitTermination(5, TimeUnit.DAYS);
+			
+			sc.analyze();
+		} 
+		catch (InterruptedException e) 
+		{
+			e.printStackTrace();
+			sc.dump();
+		}
 	}
 }
