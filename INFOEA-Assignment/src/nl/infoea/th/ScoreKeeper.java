@@ -3,6 +3,9 @@
  */
 package nl.infoea.th;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,11 +14,10 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import AbstractClasses.HyperHeuristic;
-import AbstractClasses.ProblemDomain;
-
 import nl.infoea.th.ProblemRunner.Heuristic;
 import nl.infoea.th.ProblemRunner.Problem;
+import AbstractClasses.HyperHeuristic;
+import AbstractClasses.ProblemDomain;
 
 /**
  * @author hiram
@@ -25,7 +27,7 @@ public class ScoreKeeper {
 	
 	Map<Problem, Map<Integer, Map<Heuristic, ArrayList<Double>>>> scores = new HashMap<Problem, Map<Integer,Map<Heuristic,ArrayList<Double>>>>();
 	
-	public synchronized void recordScore(Heuristic heuristic, Problem problem, int instance, ProblemDomain problemDomain, HyperHeuristic hyperHeuristic)
+	public synchronized void recordScore(int run, Heuristic heuristic, Problem problem, int instance, ProblemDomain problemDomain, HyperHeuristic hyperHeuristic)
 	{
 		if(!scores.containsKey(problem))
 			scores.put(problem, new HashMap<Integer, Map<Heuristic, ArrayList<Double>>>());
@@ -40,7 +42,7 @@ public class ScoreKeeper {
 		scores.get(problem).get(instance).get(heuristic).add(hyperHeuristic.getBestSolutionValue());
 		
 		//displayResults(problemDomain, hyperHeuristic);
-		displayResultsR(heuristic, problem, problemDomain, hyperHeuristic);
+		displayResultsR(run, heuristic, problem, instance, problemDomain, hyperHeuristic);
 	}
 	
 	
@@ -48,23 +50,21 @@ public class ScoreKeeper {
 	 * @param problemDomain
 	 * @param hyperHeuristic
 	 */
-	private void displayResultsR(Heuristic heuristic, Problem problem, ProblemDomain problemDomain,
+	private void displayResultsR(int run, Heuristic heuristic, Problem problem, int instance, ProblemDomain problemDomain,
 			HyperHeuristic hyperHeuristic) 
 	{
 		double[] fitnesstrace = hyperHeuristic.getFitnessTrace();
-		System.out.println("\n\tFitness Trace (R): ");
 		for (int r = 0; r < fitnesstrace.length; r++) {
-			System.out.print(String.format("%s;%s;%s;%s\n",
-					problem, heuristic, r, fitnesstrace[r]));
+			System.out.println(String.format("%s;%s;%s;%s;%s;%s",
+					run, problem, heuristic, instance, r, fitnesstrace[r]));
 		}
-		System.out.println();
 	}
 
 
 	/**
 	 * 
 	 */
-	private void displayResults(ProblemDomain problemDomain, HyperHeuristic hyperHeuristic) {
+	private void displayResults(int run, ProblemDomain problemDomain, HyperHeuristic hyperHeuristic) {
 		// for this example, we use the record within each problem
 		// domain of the number of times each low level heuristic
 		// was called.
@@ -102,6 +102,20 @@ public class ScoreKeeper {
 
 	public void analyze()
 	{
+		FileOutputStream fos = null;
+		ObjectOutputStream out = null;
+		try
+		{
+			fos = new FileOutputStream("plots/data");
+			out = new ObjectOutputStream(fos);
+			out.writeObject(scores);
+			out.close();
+		}
+		catch(IOException ex)
+		{
+			ex.printStackTrace();
+		}
+		
 		SortedMap<Double, Heuristic> ranks;
 		List<Double> scoreList;
 		
@@ -185,5 +199,13 @@ public class ScoreKeeper {
 			System.out.print("&" + bordaCountTotal.get(h));
 		}
 		System.out.println("\\\\");
+	}
+
+
+	/**
+	 * 
+	 */
+	public void init() {
+		System.out.println("Run;Problem;Heuristic;Instance;Index;Fitness");
 	}
 }

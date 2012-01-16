@@ -38,7 +38,7 @@ import SAT.SAT;
 public class ProblemRunner {
 
 	private static final long SEED = 123457890;
-	private static final long TIMELIMIT = 600000;
+	private static final long TIMELIMIT = 60;
 	public static final int RUNS = 5;
 
 	public enum Problem {
@@ -113,71 +113,68 @@ public class ProblemRunner {
 		// and a time limit of 10 minutes for each hyper-heuristic run
 		long timeLimit = TIMELIMIT;
 		
+		sc.init();
+		
 		//5 runs
 		for (int run = 0; run < RUNS; run++)
 		{	
 
-		// loop through all four problem domains
-		for (Problem problem : Problem.values()) {
-
-			// to ensure that all hyperheuristics begin from the same initial
-			// solution, we set a seed for each problem domain
-			long problemDomainSeed = randomNumberGenerator.nextInt();
-
-			// loop through the ten instances in the current problem domain
-			for (int instance = 0; instance < 10; instance++) {
-
-				// we retrieve the exact index of the instance we wish to use
-
-				System.out.println("Problem Domain " + problem);
-				System.out.println("\tInstance " + instance);
-
-				// to ensure that all hyperheuristics begin from the same
-				// initial solution, we set a seed for each instance
-				long instanceSeed = problemDomainSeed * (instance + 1);
-
-				// loop through the hyper-heuristics that we will test in this
-				// experiment
-				for (Heuristic heuristic : Heuristic.values()) {
-
-					// we create the problem domain object. we give the problem
-					// domain index and the unique
-					// seed for this instance, so that the problem domain object
-					// is initialised in the same way,
-					// and each hyper-heuristic will begin from the same initial
-					// solution.
-					ProblemDomain problemDomain =
-							loadProblemDomain(problem, instanceSeed);
-
-					// we create the hyper-heuristic object from the
-					// hyperheuristic index. we provide the time limit,
-					// which is set after the object is created in the
-					// loadHyperHeuristic method
-					HyperHeuristic hyperHeuristic =
-							loadHyperHeuristic(heuristic, timeLimit,
-									randomNumberGenerator);
-
-					// the required instance is loaded in the ProblemDomain
-					// object
-					problemDomain.loadInstance(instance);
-
-					// critically, the ProblemDomain object is provided to the
-					// HyperHeuristic object, so that it knows which problem to
-					// solve
-					hyperHeuristic.loadProblemDomain(problemDomain);
-
-					// now that all objects have been initialised, the current
-					// hyper-heuristic is run on the current instance to produce
-					// a solution
-					hyperHeuristic.run();
-
-					// record score for analysis
-					sc.recordScore(heuristic, problem, instance,
-							problemDomain, hyperHeuristic);
-
+			// loop through all four problem domains
+			for (Problem problem : Problem.values()) {
+	
+				// to ensure that all hyperheuristics begin from the same initial
+				// solution, we set a seed for each problem domain
+				long problemDomainSeed = randomNumberGenerator.nextInt();
+	
+				// loop through the ten instances in the current problem domain
+				for (int instance = 0; instance < 10; instance++) {
+	
+					// to ensure that all hyperheuristics begin from the same
+					// initial solution, we set a seed for each instance
+					long instanceSeed = problemDomainSeed * (instance + 1);
+	
+					// loop through the hyper-heuristics that we will test in this
+					// experiment
+					for (Heuristic heuristic : Heuristic.values()) {
+	
+						// we create the problem domain object. we give the problem
+						// domain index and the unique
+						// seed for this instance, so that the problem domain object
+						// is initialised in the same way,
+						// and each hyper-heuristic will begin from the same initial
+						// solution.
+						ProblemDomain problemDomain =
+								loadProblemDomain(problem, instanceSeed);
+	
+						// we create the hyper-heuristic object from the
+						// hyperheuristic index. we provide the time limit,
+						// which is set after the object is created in the
+						// loadHyperHeuristic method
+						HyperHeuristic hyperHeuristic =
+								loadHyperHeuristic(heuristic, timeLimit,
+										randomNumberGenerator);
+	
+						// the required instance is loaded in the ProblemDomain
+						// object
+						problemDomain.loadInstance(instance);
+	
+						// critically, the ProblemDomain object is provided to the
+						// HyperHeuristic object, so that it knows which problem to
+						// solve
+						hyperHeuristic.loadProblemDomain(problemDomain);
+	
+						// now that all objects have been initialised, the current
+						// hyper-heuristic is run on the current instance to produce
+						// a solution
+						hyperHeuristic.run();
+	
+						// record score for analysis
+						sc.recordScore(run, heuristic, problem, instance,
+								problemDomain, hyperHeuristic);
+	
+					}
 				}
 			}
-		}
 		}
 
 		sc.analyze();
