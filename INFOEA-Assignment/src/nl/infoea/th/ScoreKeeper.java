@@ -100,7 +100,7 @@ public class ScoreKeeper {
 		// we print the results of this hyper-heuristic on this
 		// problem instance
 		// print the name of this hyper-heuristic
-		progress.print("Run: "+ run + " " + problem + instance+ ": " + hyperHeuristic.toString());
+		progress.println("Run: "+ run + " " + problem + instance+ ": " + hyperHeuristic.toString());
 		// print the best solution found within the time limit
 		progress.print("\tBest: "
 				+ hyperHeuristic.getBestSolutionValue());
@@ -111,7 +111,7 @@ public class ScoreKeeper {
 		progress.println("\t Heuristic Calls: " + counter);
 
 		double[] fitnesstrace = hyperHeuristic.getFitnessTrace();
-		progress.print("\t\t\tFitness Trace: ");
+		progress.print("\tFitness Trace: ");
 		
 		for (double f : fitnesstrace) 
 		{
@@ -124,6 +124,7 @@ public class ScoreKeeper {
 
 	public void analyze()
 	{
+		progress.println("Run finished!");
 		dump();
 		
 		SortedMap<Double, Heuristic> ranks;
@@ -242,6 +243,7 @@ public class ScoreKeeper {
 			csv.close();
 		}
 				
+		progress.println("Run: " + postfix);
 		csv.println("Run;Problem;Heuristic;Instance;Index;Fitness");
 		
 	}
