@@ -1,16 +1,32 @@
 package nl.infoea.th;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
 import AbstractClasses.HyperHeuristic;
 import AbstractClasses.ProblemDomain;
-import AbstractClasses.ProblemDomain.HeuristicType;
 
 public class GeneticLocalSearch extends HyperHeuristic {
 
 	private SortedMap<Double, Integer> solutions;
 	private int workingMemoryLocation;
+	
+	private Map<Problem, Integer> crossoverHeuristic = new HashMap<Problem, Integer>();
+	private Map<Problem, Integer> localSearchHeuristic = new HashMap<Problem, Integer>();
+	
+	{
+		crossoverHeuristic.put(Problem.SAT, 9);
+		crossoverHeuristic.put(Problem.BinPacking, 8);//8
+		crossoverHeuristic.put(Problem.PersonnelScheduling, 11);//10-12
+		crossoverHeuristic.put(Problem.FlowShop, 13);//12-14
+		
+		localSearchHeuristic.put(Problem.SAT, 7);
+		localSearchHeuristic.put(Problem.BinPacking, 7); //6,7
+		localSearchHeuristic.put(Problem.PersonnelScheduling, 7);//5-9
+		localSearchHeuristic.put(Problem.FlowShop, 10);//8-11
+	}
 
 	/**
 	 * creates a new ExampleHyperHeuristic object with a random seed
@@ -48,13 +64,9 @@ public class GeneticLocalSearch extends HyperHeuristic {
 		// has been reached
 		while (!hasTimeExpired()) {
 
-			int crossoverHeuristicToApply =
-					Util.getRandomHeuristicOfType(rng, problem,
-							HeuristicType.CROSSOVER);
+			int crossoverHeuristicToApply = crossoverHeuristic.get(problem);
 
-			int localSearchHeuristicToApply =
-					Util.getRandomHeuristicOfType(rng, problem,
-							HeuristicType.LOCAL_SEARCH);
+			int localSearchHeuristicToApply = localSearchHeuristic.get(problem);
 
 			int parent1Location = rng.nextInt(populationSize);
 			int parent2Location = rng.nextInt(populationSize);
