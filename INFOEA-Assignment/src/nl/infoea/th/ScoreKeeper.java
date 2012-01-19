@@ -14,6 +14,7 @@ import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,8 +23,6 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import nl.infoea.th.ProblemRunner.Heuristic;
-import nl.infoea.th.ProblemRunner.Problem;
 import AbstractClasses.HyperHeuristic;
 import AbstractClasses.ProblemDomain;
 
@@ -244,6 +243,15 @@ public class ScoreKeeper {
 		}
 				
 		progress.println("Run: " + postfix);
+		progress.println("Parameters: ");
+		progress.println("\tRuns: " + ProblemRunner.RUNS);
+		progress.println("\tProblems: " + Arrays.toString(ProblemRunner.PROBLEMS));
+		progress.println("\tInstances: " + ProblemRunner.INSTANCES);
+		progress.println("\tHeuristics: " +  Arrays.toString(ProblemRunner.HEURISTICS));
+		progress.println("\tThreads: " + ProblemRunner.THREADS);
+		progress.println("\tSeed: " + ProblemRunner.SEED);
+		progress.println("\tTimelimit: " + ProblemRunner.TIMELIMIT/1000/60 + "min");
+		
 		csv.println("Run;Problem;Heuristic;Instance;Index;Fitness");
 		
 	}

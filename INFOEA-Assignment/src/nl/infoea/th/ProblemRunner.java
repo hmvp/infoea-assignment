@@ -1,5 +1,6 @@
 package nl.infoea.th;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -43,23 +44,13 @@ public class ProblemRunner
 
 	public static final int RUNS = 5;//5
 	public static final int INSTANCES = 10;//10
-	public static final Problem[] PROBLEMS = Problem.values();//Problem.values()
-	public static final Heuristic[] HEURISTICS = Heuristic.values();//Heuristic.values()
-	private static final int THREADS = 2;
-	private static final long SEED = 123457890;
-	private static final long TIMELIMIT = 600000;//600000
+	public static final Problem[] PROBLEMS = Arrays.copyOf(Problem.values(),4);//Problem.values()
+	public static final Heuristic[] HEURISTICS = Arrays.copyOf(Heuristic.values(),3);//Heuristic.values()
+	public static final int THREADS = 2;
+	public static final long SEED = 123457890;
+	public static final long TIMELIMIT = 600000;//600000
 
 
-
-	public enum Problem 
-	{
-		SAT, BinPacking, PersonnelScheduling, FlowShop;
-	}
-
-	public enum Heuristic 
-	{
-		ILS, GLS, AGLS;
-	}
 
 	/**
 	 * This method creates the relevant HyperHeuristic object from the index
@@ -74,6 +65,10 @@ public class ProblemRunner
 		{
 			case ILS:
 				h = new IteratedLocalSearch(rng.nextLong());
+				h.setTimeLimit(timeLimit);
+				break;
+			case RHILS:
+				h = new RandomHeuristicIteratedLocalSearch(rng.nextLong());
 				h.setTimeLimit(timeLimit);
 				break;
 			case GLS:

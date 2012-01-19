@@ -1,10 +1,8 @@
 package nl.infoea.th;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import AbstractClasses.HyperHeuristic;
 import AbstractClasses.ProblemDomain;
+import AbstractClasses.ProblemDomain.HeuristicType;
 
 /**
  * Based on ExampleHyperHeuristic1.java from the CHeSC project
@@ -63,27 +61,13 @@ import AbstractClasses.ProblemDomain;
  * 10.
  */
 
-public class IteratedLocalSearch extends HyperHeuristic 
+public class RandomHeuristicIteratedLocalSearch extends HyperHeuristic 
 {
-	private Map<Problem, Integer> mutateHeuristic = new HashMap<Problem, Integer>();
-	private Map<Problem, Integer> localSearchHeuristic = new HashMap<Problem, Integer>();
-	
-	{
-		mutateHeuristic.put(Problem.SAT, 2);
-		mutateHeuristic.put(Problem.BinPacking, 3);//1, 2, 3
-		mutateHeuristic.put(Problem.PersonnelScheduling, 1);//1
-		mutateHeuristic.put(Problem.FlowShop, 3);//1-5
-		
-		localSearchHeuristic.put(Problem.SAT, 7);
-		localSearchHeuristic.put(Problem.BinPacking, 6);//6, 7
-		localSearchHeuristic.put(Problem.PersonnelScheduling, 7);//5-9
-		localSearchHeuristic.put(Problem.FlowShop, 10);//8-11
-	}
 
 	/**
 	 * creates a new ExampleHyperHeuristic object with a random seed
 	 */
-	public IteratedLocalSearch(long seed) 
+	public RandomHeuristicIteratedLocalSearch(long seed) 
 	{
 		super(seed);
 	}
@@ -113,9 +97,12 @@ public class IteratedLocalSearch extends HyperHeuristic
 		while (!hasTimeExpired()) 
 		{
 
-			int mutationHeuristicToApply = mutateHeuristic.get(problem);
+			int mutationHeuristicToApply = 1;
+					//Util.getRandomHeuristicOfType(rng, problem, HeuristicType.MUTATION);
 
-			int localSearchHeuristicToApply = localSearchHeuristic.get(problem);
+			int localSearchHeuristicToApply = 1;
+					//Util.getRandomHeuristicOfType(rng, problem,
+					//		HeuristicType.LOCAL_SEARCH);
 
 			problem.applyHeuristic(mutationHeuristicToApply, 0, 1);
 			double newObjFunctionValue =
