@@ -47,6 +47,29 @@ plotInstances <- function(problem='SAT'){
 	do.call(grid.arrange, getInstancesPlot(problem))
 }
 
+generateBoxPlot <- function(problem='SAT'){
+	boxPlotData <- dataTable[Problem==problem]
+	boxPlot <- qplot(boxPlotData$Heuristic, boxPlotData$Fitness, geom=c("boxplot"), xlab = "Heuristic", ylab = "Fitness", main = problem) + geom_jitter(position=position_jitter(w=0.3, h=0.1), aes(colour=boxPlotData$Heuristic), alpha=0.7) + opts(legend.position="none")
+
+	return(boxPlot)
+}
+
+plotBoxPlots <- function() {
+	problems <- unique(dataTable $Problem)
+	plots <- list()
+	for(p in problems){
+		plots[[toString(p)]] <- generateBoxPlot(p) 
+	}
+	plots[["main"]] <- "BoxPlots"
+	do.call(grid.arrange, plots)
+}
+
+outputBoxPlotsToPdf <- function() {
+	pdf(paste(inputFileName,'BoxPlots.pdf',sep=''), paper='a4')
+	plotBoxPlots()
+	dev.off()
+}
+
 outputToPdf <- function() {
 	problems <- unique(grouped$Problem)
 	pdf(paste(inputFileName,'.pdf',sep=''), paper='a4')
