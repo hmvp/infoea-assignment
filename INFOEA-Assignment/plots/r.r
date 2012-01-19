@@ -19,6 +19,7 @@ getInstancesPlot <- function(problem='SAT'){
 	nHeuristics = length(heuristics)
 	
 	plots <- list()
+	last <- NULL
 	
 	for(i in instances) {
 	  p <- ggplot(grouped, aes(Index, Fitness, colour=factor(Heuristic)))
@@ -27,11 +28,12 @@ getInstancesPlot <- function(problem='SAT'){
 		  heur <- grouped[Heuristic==h][Instance==i][Problem==problem]
 		  p <- p + geom_line(aes(Index, Fitness), data=heur)
 		}
-	plots[[toString(i)]] <- p + opts(legend.position="none")
+	  plots[[toString(i)]] <- p + opts(legend.position="none")
+	  last <- p
 	}
 	
 	# Legend
-	leg <- ggplotGrob(p + opts(keep="legend_box") + labs(colour = "Heuristics"))
+	leg <- ggplotGrob(last + opts(keep="legend_box") + labs(colour = "Heuristics"))
 	## one needs to provide the legend with a well-defined width
 	legend=gTree(children=gList(leg), cl="legendGrob")
 	widthDetails.legendGrob <- function(x) unit(2.5, "cm")
@@ -47,7 +49,7 @@ plotInstances <- function(problem='SAT'){
 
 outputToPdf <- function() {
 	problems <- unique(grouped$Problem)
-	pdf(paste(inputFileName,'.pdf',sep=''))
+	pdf(paste(inputFileName,'.pdf',sep=''), paper='a4')
 	for(p in problems){
 		do.call(grid.arrange, getInstancesPlot(p))
 	}
