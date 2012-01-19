@@ -56,27 +56,29 @@ public class ProblemRunner
 	 * This method creates the relevant HyperHeuristic object from the index
 	 * given as a parameter. after the HyperHeuristic object is created, its
 	 * time limit is set.
+	 * 
+	 * Deze methode MOET synchronized omdat er een wtf static in de HyperHeuristic class zit die nergens op slaat!!
 	 */
-	private static HyperHeuristic loadHyperHeuristic(Heuristic index,
-			long timeLimit, Random rng) 
+	private synchronized static HyperHeuristic loadHyperHeuristic(Heuristic index,
+			long timeLimit, long seed) 
 	{
 		HyperHeuristic h = null;
 		switch (index) 
 		{
 			case ILS:
-				h = new IteratedLocalSearch(rng.nextLong());
+				h = new IteratedLocalSearch(seed);
 				h.setTimeLimit(timeLimit);
 				break;
 			case RHILS:
-				h = new RandomHeuristicIteratedLocalSearch(rng.nextLong());
+				h = new RandomHeuristicIteratedLocalSearch(seed);
 				h.setTimeLimit(timeLimit);
 				break;
 			case GLS:
-				h = new GeneticLocalSearch(rng.nextLong());
+				h = new GeneticLocalSearch(seed);
 				h.setTimeLimit(timeLimit);
 				break;
 			case AGLS:
-				h = new AdaptiveGeneticLocalSearch(rng.nextLong());
+				h = new AdaptiveGeneticLocalSearch(seed);
 				h.setTimeLimit(timeLimit);
 				break;
 		}
@@ -172,7 +174,7 @@ public class ProblemRunner
 								// loadHyperHeuristic method
 								HyperHeuristic hyperHeuristic =
 										loadHyperHeuristic(heuristic, TIMELIMIT,
-												randomNumberGenerator);
+												randomNumberGenerator.nextLong());
 			
 								// the required instance is loaded in the ProblemDomain
 								// object

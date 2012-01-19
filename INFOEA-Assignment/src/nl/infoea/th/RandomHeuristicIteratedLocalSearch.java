@@ -2,7 +2,6 @@ package nl.infoea.th;
 
 import AbstractClasses.HyperHeuristic;
 import AbstractClasses.ProblemDomain;
-import AbstractClasses.ProblemDomain.HeuristicType;
 
 /**
  * Based on ExampleHyperHeuristic1.java from the CHeSC project
