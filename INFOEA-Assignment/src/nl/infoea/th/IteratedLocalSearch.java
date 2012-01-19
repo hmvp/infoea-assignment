@@ -61,12 +61,14 @@ import AbstractClasses.ProblemDomain.HeuristicType;
  * 10.
  */
 
-public class IteratedLocalSearch extends HyperHeuristic {
+public class IteratedLocalSearch extends HyperHeuristic 
+{
 
 	/**
 	 * creates a new ExampleHyperHeuristic object with a random seed
 	 */
-	public IteratedLocalSearch(long seed) {
+	public IteratedLocalSearch(long seed) 
+	{
 		super(seed);
 	}
 
@@ -76,11 +78,12 @@ public class IteratedLocalSearch extends HyperHeuristic {
 	 * @param problem
 	 *            the problem domain to be solved
 	 */
-	public void solve(ProblemDomain problem) {
+	public void solve(ProblemDomain problem) 
+	{
 
 		// it is often a good idea to record the number of low level heuristics,
 		// as this changes depending on the problem domain
-		int numberOfHeuristics = problem.getNumberOfHeuristics();
+		//int numberOfHeuristics = problem.getNumberOfHeuristics();
 
 		problem.setMemorySize(2);
 
@@ -91,7 +94,8 @@ public class IteratedLocalSearch extends HyperHeuristic {
 
 		// the main loop of any hyper-heuristic, which checks if the time limit
 		// has been reached
-		while (!hasTimeExpired()) {
+		while (!hasTimeExpired()) 
+		{
 
 			int mutationHeuristicToApply =
 					getRandomHeuristicOfType(problem, HeuristicType.MUTATION);
@@ -108,7 +112,8 @@ public class IteratedLocalSearch extends HyperHeuristic {
 
 			// all of the problem domains are implemented as minimisation
 			// problems. A lower fitness means a better solution.
-			if (delta > 0 || rng.nextBoolean()) {
+			if (delta > 0 || rng.nextBoolean()) 
+			{
 				// if there is an improvement then we 'accept' the solution by
 				// copying the new solution into memory index 0
 				problem.copySolution(1, 0);
@@ -134,9 +139,11 @@ public class IteratedLocalSearch extends HyperHeuristic {
 	 * @return Heuristic of specified type or random if none found.
 	 */
 	private int getRandomHeuristicOfType(ProblemDomain problem,
-			HeuristicType type) {
+			HeuristicType type) 
+	{
 		int[] heuristics = problem.getHeuristicsOfType(type);
-		if (heuristics != null) {
+		if (heuristics != null) 
+		{
 			int selected = rng.nextInt(heuristics.length);
 			return heuristics[selected];
 		} else {
@@ -150,7 +157,8 @@ public class IteratedLocalSearch extends HyperHeuristic {
 	 * 
 	 * @return a string representing the name of the hyper-heuristic
 	 */
-	public String toString() {
+	public String toString() 
+	{
 		return "Iterated Local Search";
 	}
 }
