@@ -49,7 +49,7 @@ plotInstances <- function(problem='SAT'){
 
 generateBoxPlot <- function(problem='SAT'){
 	boxPlotData <- dataTable[Problem==problem]
-	boxPlot <- qplot(boxPlotData$Heuristic, boxPlotData$Fitness, geom=c("boxplot"), xlab = "Heuristic", ylab = "Fitness", main = problem) + geom_jitter(position=position_jitter(w=0.3, h=0.1), aes(colour=boxPlotData$Heuristic), alpha=0.7) + opts(legend.position="none")
+	boxPlot <- qplot(boxPlotData$Heuristic, boxPlotData$Fitness, geom=c("boxplot"), xlab = "Heuristic", ylab = "Fitness", main = problem) + geom_jitter(position=position_jitter(w=0.3, h=0.1), aes(colour=boxPlotData$Heuristic), alpha=0.15) + opts(legend.position="none")
 
 	return(boxPlot)
 }
