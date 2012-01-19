@@ -250,7 +250,7 @@ public class ScoreKeeper {
 		progress.println("\tHeuristics: " +  Arrays.toString(ProblemRunner.HEURISTICS));
 		progress.println("\tThreads: " + ProblemRunner.THREADS);
 		progress.println("\tSeed: " + ProblemRunner.SEED);
-		progress.println("\tTimelimit: " + ProblemRunner.TIMELIMIT/1000/60 + "min");
+		progress.println("\tTimelimit: " + ProblemRunner.TIMELIMIT/1000 + "sec");
 		
 		csv.println("Run;Problem;Heuristic;Instance;Index;Fitness");
 		

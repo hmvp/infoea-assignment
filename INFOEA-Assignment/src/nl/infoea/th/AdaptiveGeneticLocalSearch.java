@@ -64,9 +64,9 @@ public class AdaptiveGeneticLocalSearch extends HyperHeuristic {
 		// has been reached
 		while (!hasTimeExpired()) {
 
-			int crossoverHeuristicToApply = crossoverHeuristic.get(problem);
+			int crossoverHeuristicToApply = crossoverHeuristic.get(Problem.asEnum(problem));
 
-			int localSearchHeuristicToApply = localSearchHeuristic.get(problem);
+			int localSearchHeuristicToApply = localSearchHeuristic.get(Problem.asEnum(problem));
 
 			int parent1Location = rng.nextInt(populationSize);
 			int parent2Location = rng.nextInt(populationSize);
