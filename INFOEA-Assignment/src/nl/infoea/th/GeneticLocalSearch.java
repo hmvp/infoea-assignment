@@ -17,15 +17,15 @@ public class GeneticLocalSearch extends HyperHeuristic {
 	private Map<Problem, Integer> localSearchHeuristic = new HashMap<Problem, Integer>();
 	
 	{
-		crossoverHeuristic.put(Problem.SAT, 9);
-		crossoverHeuristic.put(Problem.BinPacking, 8);//8
-		crossoverHeuristic.put(Problem.PersonnelScheduling, 11);//10-12
-		crossoverHeuristic.put(Problem.FlowShop, 13);//12-14
+		crossoverHeuristic.put(Problem.SAT, 9);//9,10
+		crossoverHeuristic.put(Problem.BinPacking, 7);//7
+		crossoverHeuristic.put(Problem.PersonnelScheduling, 10);//8-10
+		crossoverHeuristic.put(Problem.FlowShop, 12);//11-14
 		
-		localSearchHeuristic.put(Problem.SAT, 7);
-		localSearchHeuristic.put(Problem.BinPacking, 7); //6,7
-		localSearchHeuristic.put(Problem.PersonnelScheduling, 7);//5-9
-		localSearchHeuristic.put(Problem.FlowShop, 10);//8-11
+		localSearchHeuristic.put(Problem.SAT, 7);//7,8
+		localSearchHeuristic.put(Problem.BinPacking, 6);//4, 6
+		localSearchHeuristic.put(Problem.PersonnelScheduling, 4);//0-4
+		localSearchHeuristic.put(Problem.FlowShop, 9);//7-10
 	}
 
 	/**

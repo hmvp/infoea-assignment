@@ -69,15 +69,15 @@ public class IteratedLocalSearch extends HyperHeuristic
 	private Map<Problem, Integer> localSearchHeuristic = new HashMap<Problem, Integer>();
 	
 	{
-		mutateHeuristic.put(Problem.SAT, 2);
-		mutateHeuristic.put(Problem.BinPacking, 3);//1, 2, 3
-		mutateHeuristic.put(Problem.PersonnelScheduling, 1);//1
-		mutateHeuristic.put(Problem.FlowShop, 3);//1-5
+		mutateHeuristic.put(Problem.SAT, 1);//0, 1, 2, 3, 4, 5 
+		mutateHeuristic.put(Problem.BinPacking, 2);//0,3,5
+		mutateHeuristic.put(Problem.PersonnelScheduling, 11);//11
+		mutateHeuristic.put(Problem.FlowShop, 2);//0-4
 		
-		localSearchHeuristic.put(Problem.SAT, 7);
-		localSearchHeuristic.put(Problem.BinPacking, 6);//6, 7
-		localSearchHeuristic.put(Problem.PersonnelScheduling, 7);//5-9
-		localSearchHeuristic.put(Problem.FlowShop, 10);//8-11
+		localSearchHeuristic.put(Problem.SAT, 7);//7,8
+		localSearchHeuristic.put(Problem.BinPacking, 6);//4, 6
+		localSearchHeuristic.put(Problem.PersonnelScheduling, 4);//0-4
+		localSearchHeuristic.put(Problem.FlowShop, 9);//7-10
 	}
 
 	/**
