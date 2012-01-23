@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
@@ -230,7 +231,18 @@ public class ScoreKeeper {
 		{
 			latex = new PrintStream(REPORTDIR + "/bordacount-"+postfix+".tex");
 			csv = new PrintStream(REPORTDIR + "/runtrace-"+postfix+".csv");
-			progress = System.out;
+			
+			//Write to file and to System.out
+			progress = new PrintStream(new OutputStream() {
+				
+				private OutputStream file = new FileOutputStream(REPORTDIR + "/progress-"+postfix+".txt");
+				
+				@Override
+				public void write(int b) throws IOException {
+					System.out.write(b);
+					file.write(b);
+				}
+			});
 			
 			copyFileToStream(REPORTDIR + "/report.tex", latex);
 			

@@ -1,7 +1,5 @@
 package nl.infoea.th;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -13,20 +11,6 @@ public class AdaptiveGeneticLocalSearch extends HyperHeuristic {
 	private SortedMap<Double, Integer> solutions;
 	private int workingMemoryLocation;
 	
-	private Map<Problem, Integer> crossoverHeuristic = new HashMap<Problem, Integer>();
-	private Map<Problem, Integer> localSearchHeuristic = new HashMap<Problem, Integer>();
-	
-	{
-		crossoverHeuristic.put(Problem.SAT, 9);//9,10
-		crossoverHeuristic.put(Problem.BinPacking, 7);//7
-		crossoverHeuristic.put(Problem.PersonnelScheduling, 10);//8-10
-		crossoverHeuristic.put(Problem.FlowShop, 12);//11-14
-		
-		localSearchHeuristic.put(Problem.SAT, 7);//7,8
-		localSearchHeuristic.put(Problem.BinPacking, 6);//4, 6
-		localSearchHeuristic.put(Problem.PersonnelScheduling, 4);//0-4
-		localSearchHeuristic.put(Problem.FlowShop, 9);//7-10
-	}
 
 	/**
 	 * creates a new ExampleHyperHeuristic object with a random seed
@@ -64,9 +48,9 @@ public class AdaptiveGeneticLocalSearch extends HyperHeuristic {
 		// has been reached
 		while (!hasTimeExpired()) {
 
-			int crossoverHeuristicToApply = crossoverHeuristic.get(Problem.asEnum(problem));
-
-			int localSearchHeuristicToApply = localSearchHeuristic.get(Problem.asEnum(problem));
+			int crossoverHeuristicToApply = Util.getCrossoverHeuristic(problem);
+			int mutationHeuristicToApply = Util.getMutationHeuristic(problem);
+			int localSearchHeuristicToApply = Util.getLocalsearchHeuristic(problem);
 
 			int parent1Location = rng.nextInt(populationSize);
 			int parent2Location = rng.nextInt(populationSize);
@@ -80,14 +64,18 @@ public class AdaptiveGeneticLocalSearch extends HyperHeuristic {
 						problem.applyHeuristic(localSearchHeuristicToApply,
 								workingMemoryLocation, workingMemoryLocation);
 				process(problem, lsOutcome);
-			} else { // else do LS
+			} else { // else do one ILS iteration (mutation -> localsearch)
+				
+				problem.applyHeuristic(mutationHeuristicToApply, parent1Location, workingMemoryLocation);
 				double outcome1 =
 						problem.applyHeuristic(localSearchHeuristicToApply,
-								parent1Location, workingMemoryLocation);
+								workingMemoryLocation, workingMemoryLocation);
 				process(problem, outcome1);
+				
+				problem.applyHeuristic(mutationHeuristicToApply, parent2Location, workingMemoryLocation);
 				double outcome2 =
 						problem.applyHeuristic(localSearchHeuristicToApply,
-								parent2Location, workingMemoryLocation);
+								workingMemoryLocation, workingMemoryLocation);
 				process(problem, outcome2);
 			}
 
@@ -121,6 +109,6 @@ public class AdaptiveGeneticLocalSearch extends HyperHeuristic {
 	 * @return a string representing the name of the hyper-heuristic
 	 */
 	public String toString() {
-		return "Genetic Local Search";
+		return "Adaptive Genetic Local Search";
 	}
 }
