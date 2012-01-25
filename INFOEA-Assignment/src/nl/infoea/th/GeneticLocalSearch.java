@@ -10,7 +10,6 @@ public class GeneticLocalSearch extends HyperHeuristic {
 
 	private SortedMap<Double, Integer> solutions;
 	private int workingMemoryLocation;
-	
 
 	/**
 	 * creates a new ExampleHyperHeuristic object with a random seed
@@ -44,35 +43,36 @@ public class GeneticLocalSearch extends HyperHeuristic {
 			solutions.put(problem.getFunctionValue(i), i);
 		}
 
+		// get Heuristics to apply
+		int crossoverHeuristicToApply = Util.getCrossoverHeuristic(problem);
+		int mutationHeuristicToApply = Util.getMutationHeuristic(problem);
+		int localSearchHeuristicToApply = Util.getLocalSearchHeuristic(problem);
+
 		// the main loop of any hyper-heuristic, which checks if the time limit
 		// has been reached
 		while (!hasTimeExpired()) {
-
-			int crossoverHeuristicToApply = Util.getCrossoverHeuristic(problem);
-			int mutationHeuristicToApply = Util.getMutationHeuristic(problem);
-			int localSearchHeuristicToApply = Util.getLocalsearchHeuristic(problem);
-
 			int parent1Location = rng.nextInt(populationSize);
 			int parent2Location = rng.nextInt(populationSize);
 
 			// .5 chance to do crossover
 			if (rng.nextBoolean()) {
 				problem.applyHeuristic(crossoverHeuristicToApply,
-								parent1Location, parent2Location,
-								workingMemoryLocation);
+						parent1Location, parent2Location, workingMemoryLocation);
 				double lsOutcome =
 						problem.applyHeuristic(localSearchHeuristicToApply,
 								workingMemoryLocation, workingMemoryLocation);
 				process(problem, lsOutcome);
 			} else { // else do one ILS iteration (mutation -> localsearch)
-				
-				problem.applyHeuristic(mutationHeuristicToApply, parent1Location, workingMemoryLocation);
+
+				problem.applyHeuristic(mutationHeuristicToApply,
+						parent1Location, workingMemoryLocation);
 				double outcome1 =
 						problem.applyHeuristic(localSearchHeuristicToApply,
 								workingMemoryLocation, workingMemoryLocation);
 				process(problem, outcome1);
-				
-				problem.applyHeuristic(mutationHeuristicToApply, parent2Location, workingMemoryLocation);
+
+				problem.applyHeuristic(mutationHeuristicToApply,
+						parent2Location, workingMemoryLocation);
 				double outcome2 =
 						problem.applyHeuristic(localSearchHeuristicToApply,
 								workingMemoryLocation, workingMemoryLocation);
