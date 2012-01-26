@@ -10,6 +10,7 @@ public class GeneticLocalSearch extends HyperHeuristic {
 
 	private SortedMap<Double, Integer> solutions;
 	private int workingMemoryLocation;
+	private int localSearchHeuristicToApply;
 	
 
 	/**
@@ -44,57 +45,55 @@ public class GeneticLocalSearch extends HyperHeuristic {
 			solutions.put(problem.getFunctionValue(i), i);
 		}
 
+		int crossoverHeuristicToApply = Util.getCrossoverHeuristic(problem);
+		int mutationHeuristicToApply = Util.getMutationHeuristic(problem);
+		localSearchHeuristicToApply = Util.getLocalsearchHeuristic(problem);
+
+		
 		// the main loop of any hyper-heuristic, which checks if the time limit
 		// has been reached
 		while (!hasTimeExpired()) {
 
-			int crossoverHeuristicToApply = Util.getCrossoverHeuristic(problem);
-			int mutationHeuristicToApply = Util.getMutationHeuristic(problem);
-			int localSearchHeuristicToApply = Util.getLocalsearchHeuristic(problem);
-
 			int parent1Location = rng.nextInt(populationSize);
-			int parent2Location = rng.nextInt(populationSize);
+			//make sure parent
+			int parent2Location = (parent1Location + rng.nextInt(populationSize-1)) % populationSize;
 
 			// .5 chance to do crossover
 			if (rng.nextBoolean()) {
 				problem.applyHeuristic(crossoverHeuristicToApply,
 								parent1Location, parent2Location,
 								workingMemoryLocation);
-				double lsOutcome =
-						problem.applyHeuristic(localSearchHeuristicToApply,
-								workingMemoryLocation, workingMemoryLocation);
-				process(problem, lsOutcome);
+				process(problem, false);
 			} else { // else do one ILS iteration (mutation -> localsearch)
 				
 				problem.applyHeuristic(mutationHeuristicToApply, parent1Location, workingMemoryLocation);
-				double outcome1 =
-						problem.applyHeuristic(localSearchHeuristicToApply,
-								workingMemoryLocation, workingMemoryLocation);
-				process(problem, outcome1);
+				process(problem, true);
 				
 				problem.applyHeuristic(mutationHeuristicToApply, parent2Location, workingMemoryLocation);
-				double outcome2 =
-						problem.applyHeuristic(localSearchHeuristicToApply,
-								workingMemoryLocation, workingMemoryLocation);
-				process(problem, outcome2);
+				process(problem, true);
 			}
 
 			// one iteration has been completed, so we return to the start of
 			// the main loop and check if the time has expired
 		}
 	}
-
+	
 	/**
 	 * 
 	 * @param problem
 	 * @param outcome
 	 */
-	private void process(ProblemDomain problem, double outcome) {
+	private void process(ProblemDomain problem, boolean allowWorse) 
+	{
+		double outcome =
+				problem.applyHeuristic(localSearchHeuristicToApply,
+						workingMemoryLocation, workingMemoryLocation);
+		
 		// replace worst solution if better
 		// last in solutions is worst, since problem is minimum based
 		double worstSolutionKey = solutions.lastKey();
 
-		if (outcome < worstSolutionKey) {
+		if (outcome < worstSolutionKey || (allowWorse && rng.nextBoolean())) {
 			int worstSolutionId = solutions.get(worstSolutionKey);
 			problem.copySolution(workingMemoryLocation, worstSolutionId);
 			solutions.remove(worstSolutionKey);
