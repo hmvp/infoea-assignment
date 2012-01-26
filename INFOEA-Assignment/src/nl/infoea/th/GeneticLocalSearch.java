@@ -47,7 +47,7 @@ public class GeneticLocalSearch extends HyperHeuristic {
 		// get Heuristics to apply
 		int crossoverHeuristicToApply = Util.getCrossoverHeuristic(problem);
 		int mutationHeuristicToApply = Util.getMutationHeuristic(problem);
-		localSearchHeuristicToApply = Util.getLocalsearchHeuristic(problem);
+		localSearchHeuristicToApply = Util.getLocalSearchHeuristic(problem);
 
 		
 		// the main loop of any hyper-heuristic, which checks if the time limit
