@@ -263,7 +263,14 @@ public class ScoreKeeper {
 		progress.println("\tThreads: " + ProblemRunner.THREADS);
 		progress.println("\tSeed: " + ProblemRunner.SEED);
 		progress.println("\tTimelimit: " + ProblemRunner.TIMELIMIT/1000 + "sec");
-		
+		progress.println("\tExpected runtime: " + 
+					((	ProblemRunner.RUNS * 
+						ProblemRunner.PROBLEMS.length * 
+						ProblemRunner.INSTANCES *
+						ProblemRunner.HEURISTICS.length * 
+						(ProblemRunner.TIMELIMIT/1000)
+					) / ProblemRunner.THREADS
+					) / 60 + "min");
 		csv.println("Run;Problem;Heuristic;Instance;Index;Fitness");
 		
 	}
