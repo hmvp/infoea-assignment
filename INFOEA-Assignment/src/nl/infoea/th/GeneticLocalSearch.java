@@ -11,7 +11,6 @@ public class GeneticLocalSearch extends HyperHeuristic {
 	private SortedMap<Double, Integer> solutions;
 	private int workingMemoryLocation;
 	private int localSearchHeuristicToApply;
-	
 
 	/**
 	 * creates a new ExampleHyperHeuristic object with a random seed
@@ -45,6 +44,7 @@ public class GeneticLocalSearch extends HyperHeuristic {
 			solutions.put(problem.getFunctionValue(i), i);
 		}
 
+		// get Heuristics to apply
 		int crossoverHeuristicToApply = Util.getCrossoverHeuristic(problem);
 		int mutationHeuristicToApply = Util.getMutationHeuristic(problem);
 		localSearchHeuristicToApply = Util.getLocalsearchHeuristic(problem);
@@ -53,23 +53,23 @@ public class GeneticLocalSearch extends HyperHeuristic {
 		// the main loop of any hyper-heuristic, which checks if the time limit
 		// has been reached
 		while (!hasTimeExpired()) {
-
 			int parent1Location = rng.nextInt(populationSize);
-			//make sure parent
+			//make sure parent2 is not the same
 			int parent2Location = (parent1Location + rng.nextInt(populationSize-1)) % populationSize;
 
 			// .5 chance to do crossover
 			if (rng.nextBoolean()) {
 				problem.applyHeuristic(crossoverHeuristicToApply,
-								parent1Location, parent2Location,
-								workingMemoryLocation);
+						parent1Location, parent2Location, workingMemoryLocation);
 				process(problem, false);
 			} else { // else do one ILS iteration (mutation -> localsearch)
-				
-				problem.applyHeuristic(mutationHeuristicToApply, parent1Location, workingMemoryLocation);
+
+				problem.applyHeuristic(mutationHeuristicToApply,
+						parent1Location, workingMemoryLocation);
 				process(problem, true);
-				
-				problem.applyHeuristic(mutationHeuristicToApply, parent2Location, workingMemoryLocation);
+
+				problem.applyHeuristic(mutationHeuristicToApply,
+						parent2Location, workingMemoryLocation);
 				process(problem, true);
 			}
 

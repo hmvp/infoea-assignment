@@ -71,7 +71,7 @@ public class Util {
 	 * @param problem
 	 * @return heuristic index
 	 */
-	public static int getLocalsearchHeuristic(ProblemDomain problem) {
+	public static int getLocalSearchHeuristic(ProblemDomain problem) {
 		return localSearchHeuristic.get(Problem.asEnum(problem));
 	}
 }

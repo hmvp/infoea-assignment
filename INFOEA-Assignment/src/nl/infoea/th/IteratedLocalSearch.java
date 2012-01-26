@@ -96,7 +96,7 @@ public class IteratedLocalSearch extends HyperHeuristic
 		{
 
 			int mutationHeuristicToApply = Util.getMutationHeuristic(problem);
-			int localSearchHeuristicToApply = Util.getLocalsearchHeuristic(problem);
+			int localSearchHeuristicToApply = Util.getLocalSearchHeuristic(problem);
 	
 			problem.applyHeuristic(mutationHeuristicToApply, 0, 1);
 			double newObjFunctionValue =

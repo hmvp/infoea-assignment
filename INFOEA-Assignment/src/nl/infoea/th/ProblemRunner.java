@@ -67,21 +67,18 @@ public class ProblemRunner
 		{
 			case ILS:
 				h = new IteratedLocalSearch(seed);
-				h.setTimeLimit(timeLimit);
 				break;
 			case RHILS:
 				h = new RandomHeuristicIteratedLocalSearch(seed);
-				h.setTimeLimit(timeLimit);
 				break;
 			case GLS:
 				h = new GeneticLocalSearch(seed);
-				h.setTimeLimit(timeLimit);
 				break;
 			case AGLS:
 				h = new AdaptiveGeneticLocalSearch(seed);
-				h.setTimeLimit(timeLimit);
 				break;
 		}
+		h.setTimeLimit(timeLimit);
 		return h;
 	}
 

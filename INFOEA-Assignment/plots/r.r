@@ -12,6 +12,8 @@ data <- subset(data, Index > 0)
 dataTable <- data.table(data) 
 grouped <- dataTable[, list(Fitness=mean(Fitness)), by=list(Problem, Heuristic, Instance, Index)]
 
+widthDetails.legendGrob <- function(x) unit(2.5, "cm")
+
 getInstancesPlot <- function(problem='SAT'){
 	instances <- unique(grouped$Instance)
 	problems <- unique(grouped$Problem)
@@ -36,7 +38,6 @@ getInstancesPlot <- function(problem='SAT'){
 	leg <- ggplotGrob(last + opts(keep="legend_box") + labs(colour = "Heuristics"))
 	## one needs to provide the legend with a well-defined width
 	legend=gTree(children=gList(leg), cl="legendGrob")
-	widthDetails.legendGrob <- function(x) unit(2.5, "cm")
 	plots[["legend"]] <- legend
 	plots[["main"]] <- problem
 	
