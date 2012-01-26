@@ -7,5 +7,10 @@
 			<attribute name="javadoc_location" value="http://www.asap.cs.nott.ac.uk/chesc2011/javadoc/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/guava-11.0.1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://docs.guava-libraries.googlecode.com/git-history/v11.0.1/javadoc/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
