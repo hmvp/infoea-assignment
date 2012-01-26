@@ -135,6 +135,6 @@ public class RandomHeuristicIteratedLocalSearch extends HyperHeuristic
 	 */
 	public String toString() 
 	{
-		return "Iterated Local Search";
+		return "Random Heuristic Iterated Local Search";
 	}
 }

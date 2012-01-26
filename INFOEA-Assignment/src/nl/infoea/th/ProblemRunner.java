@@ -6,12 +6,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import travelingSalesmanProblem.TSP;
+
 import AbstractClasses.HyperHeuristic;
 import AbstractClasses.ProblemDomain;
 import BinPacking.BinPacking;
 import FlowShop.FlowShop;
 import PersonnelScheduling.PersonnelScheduling;
 import SAT.SAT;
+import VRP.VRP;
 
 /**
  * Based on ExampleRun2.java from the CHeSC project
@@ -44,11 +47,25 @@ public class ProblemRunner
 
 	public static final int RUNS = 5;//5
 	public static final int INSTANCES = 10;//10
-	public static final Problem[] PROBLEMS = Arrays.copyOf(Problem.values(),4);//Problem.values()
-	public static final Heuristic[] HEURISTICS = Arrays.copyOf(Heuristic.values(),3);//Heuristic.values()
+	public static final Problem[] PROBLEMS = new Problem[]
+	{
+		Problem.SAT, 
+		Problem.BinPacking, 
+		Problem.PersonnelScheduling, 
+		Problem.FlowShop,
+		//Problem.VRP,
+		//Problem.TSP,
+	};//Problem.values()
+	public static final Heuristic[] HEURISTICS = new Heuristic[]
+	{
+		Heuristic.ILS, 
+		Heuristic.GLS, 
+		Heuristic.AGLS,
+		//Heuristic.RHILS,
+	};//Heuristic.values()
 	public static final int THREADS = 2;
 	public static final long SEED = 123457890;
-	public static final long TIMELIMIT = 600000;//600000
+	public static final long TIMELIMIT = 6000;//600000
 
 
 
@@ -105,6 +122,12 @@ public class ProblemRunner
 				break;
 			case FlowShop:
 				p = new FlowShop(instanceseed);
+				break;
+			case VRP:
+				p = new VRP(instanceseed);
+				break;
+			case TSP:
+				p = new TSP(instanceseed);
 				break;
 		}
 		return p;
