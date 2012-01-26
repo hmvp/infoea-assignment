@@ -6,15 +6,8 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import nl.infoea.th.AdaptiveGeneticLocalSearch.AdaptiveChoice;
-
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
-import com.google.common.primitives.Doubles;
-
 import AbstractClasses.HyperHeuristic;
 import AbstractClasses.ProblemDomain;
-import AbstractClasses.ProblemDomain.HeuristicType;
 
 public class AdaptiveGeneticLocalSearch extends HyperHeuristic {
 
