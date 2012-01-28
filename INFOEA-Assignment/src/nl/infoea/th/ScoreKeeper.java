@@ -21,7 +21,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.TreeMap;
 
 import AbstractClasses.HyperHeuristic;
@@ -127,7 +126,7 @@ public class ScoreKeeper {
 		progress.println("Run finished!");
 		dump();
 		
-		SortedMap<Double, Heuristic> ranks;
+		HashMap<Heuristic, Double> ranks;
 		List<Double> scoreList;
 		
 		if(scores.size() != ProblemRunner.PROBLEMS.length)
@@ -160,8 +159,10 @@ public class ScoreKeeper {
 				if(scores.get(p).get(i).size() != ProblemRunner.HEURISTICS.length)
 					throw new RuntimeException("Missing values");
 				
-				ranks = new TreeMap<Double, Heuristic>();
+				ranks = new HashMap<Heuristic, Double>();
 				
+				
+				//Calculate scores
 				for(Heuristic h : ProblemRunner.HEURISTICS)
 				{
 					scoreList = scores.get(p).get(i).get(h);
@@ -170,16 +171,35 @@ public class ScoreKeeper {
 						throw new RuntimeException("Missing values");
 					
 					Collections.sort(scoreList);
-					Double score = scoreList.get((int) Math.floor(ProblemRunner.RUNS/2));
-					ranks.put(score, h);
+					double score = scoreList.get((int) Math.floor(ProblemRunner.RUNS/2));
+					score = 0;
+					
+					for(double d : scoreList)
+					{
+						score += d;
+					}
+					score = score / scoreList.size();
+					
+					ranks.put(h, score);
 				}
 				
-				Heuristic[] outcome = ranks.values().toArray(new Heuristic[Heuristic.values().length]);
+				//sort based on value
+				TreeMap<Heuristic, Double> sortedRanks = new ValueSortedTreeMap<Heuristic, Double>(ranks);
+				//Make an array of Heuristics with the first 
+				ArrayList<Heuristic> rankList = new ArrayList<Heuristic>(sortedRanks.keySet());
 				
+				
+				//print in right order
 				latex.print("Instance"+i);
 				for(Heuristic h : ProblemRunner.HEURISTICS)
 				{
-					int rank = java.util.Arrays.asList(outcome).indexOf(h) + 1;
+					int rank = rankList.indexOf(h) + 1;
+					
+					if (rank == 0)
+					{
+						rank = 10;
+						progress.println("Oeps er mist iets: "+h+" in "+rankList);
+					}
 					latex.print("&" + rank);
 					bordaCount.put(h, bordaCount.get(h) + rank);
 				}
