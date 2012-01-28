@@ -17,8 +17,8 @@ public class AdaptiveGeneticLocalSearch extends HyperHeuristic {
 
 	private static double pMin = 0.1;
 	private double pMax;
-	private static double alpha = 0.5;
-	private static double beta = 0.5;
+	protected static double alpha = 0.5;
+	protected static double beta = 0.5;
 
 	// P_i(t): Chance to pick heuristic i
 	private Map<AdaptiveChoice, Double> Pt =
@@ -28,7 +28,7 @@ public class AdaptiveGeneticLocalSearch extends HyperHeuristic {
 			new HashMap<AdaptiveChoice, Double>();
 
 	private Comparator<AdaptiveChoice> bvc =
-			new ValueComparator<AdaptiveChoice>(Qt);
+			new ValueComparator<AdaptiveChoice, Double>(Qt);
 
 	/**
 	 * creates a new ExampleHyperHeuristic object with a random seed
@@ -182,6 +182,6 @@ public class AdaptiveGeneticLocalSearch extends HyperHeuristic {
 	 * @return a string representing the name of the hyper-heuristic
 	 */
 	public String toString() {
-		return "Adaptive Genetic Local Search";
+		return "Adaptive Genetic Local Search alpha"+alpha+" beta"+beta;
 	}
 }

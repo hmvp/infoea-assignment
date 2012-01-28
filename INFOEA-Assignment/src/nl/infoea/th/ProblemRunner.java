@@ -45,8 +45,8 @@ import VRP.VRP;
 public class ProblemRunner 
 {
 
-	public static final int RUNS = 5;//5
-	public static final int INSTANCES = 10;//10
+	public static final int RUNS = 3;//5
+	public static final int INSTANCES = 5;//10
 	public static final Problem[] PROBLEMS = new Problem[]
 	{
 		Problem.SAT, 
@@ -61,11 +61,18 @@ public class ProblemRunner
 		Heuristic.ILS, 
 		Heuristic.GLS, 
 		Heuristic.AGLS,
+		Heuristic.AGLS1_1,
+		Heuristic.AGLS1_5,
+		Heuristic.AGLS5_1,
+		Heuristic.AGLS5_5,
+		Heuristic.AGLS1_7,
+		Heuristic.AGLS7_1,
+		Heuristic.AGLS7_7,		
 		//Heuristic.RHILS,
 	};//Heuristic.values()
 	public static final int THREADS = 2;
 	public static final long SEED = 123457890;
-	public static final long TIMELIMIT = 6000;//600000
+	public static final long TIMELIMIT = 60000;//600000
 
 
 
@@ -93,6 +100,27 @@ public class ProblemRunner
 				break;
 			case AGLS:
 				h = new AdaptiveGeneticLocalSearch(seed);
+				break;
+			case AGLS1_1:
+				h = new AGLS1_1(seed);
+				break;
+			case AGLS1_5:
+				h = new AGLS1_5(seed);
+				break;
+			case AGLS1_7:
+				h = new AGLS1_5(seed);
+				break;
+			case AGLS5_1:
+				h = new AGLS5_1(seed);
+				break;
+			case AGLS5_5:
+				h = new AGLS5_5(seed);
+				break;
+			case AGLS7_1:
+				h = new AGLS7_1(seed);
+				break;
+			case AGLS7_7:
+				h = new AGLS7_7(seed);
 				break;
 		}
 		h.setTimeLimit(timeLimit);
