@@ -14,10 +14,8 @@ public class AGLS7_7 extends AdaptiveGeneticLocalSearch {
 	 */
 	public AGLS7_7(long seed) {
 		super(seed);
+		
+		alpha = 0.7;
+		beta = 0.7;
 	}
-
-	
-	protected static double alpha = 0.7;
-	protected static double beta = 0.7;
-
 }

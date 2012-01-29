@@ -14,10 +14,8 @@ public class AGLS5_1 extends AdaptiveGeneticLocalSearch {
 	 */
 	public AGLS5_1(long seed) {
 		super(seed);
+		
+		alpha = 0.5;
+		beta = 0.1;
 	}
-
-	
-	protected static double alpha = 0.5;
-	protected static double beta = 0.1;
-
 }
