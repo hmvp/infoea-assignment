@@ -1,13 +1,11 @@
 package nl.infoea.th;
 
-import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import travelingSalesmanProblem.TSP;
-
 import AbstractClasses.HyperHeuristic;
 import AbstractClasses.ProblemDomain;
 import BinPacking.BinPacking;
