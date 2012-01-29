@@ -171,14 +171,9 @@ public class ScoreKeeper {
 						throw new RuntimeException("Missing values");
 					
 					Collections.sort(scoreList);
-					double score = scoreList.get((int) Math.floor(ProblemRunner.RUNS/2));
-					score = 0;
 					
-					for(double d : scoreList)
-					{
-						score += d;
-					}
-					score = score / scoreList.size();
+					//get median
+					double score = scoreList.get((int) Math.floor(ProblemRunner.RUNS/2));
 					
 					ranks.put(h, score);
 				}
