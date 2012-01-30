@@ -13,4 +13,9 @@ public enum Heuristic
 	AGLS1_7,
 	AGLS7_1,
 	AGLS7_7,
+	ILSFlowShop0,
+	ILSFlowShop1,
+	ILSFlowShop2,
+	ILSFlowShop3,
+	ILSFlowShop4,
 }
