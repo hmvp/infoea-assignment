@@ -3,18 +3,25 @@ require(data.table)
 require(ggplot2)
 require(gridExtra)
 
-#loadData <- function(){
-inputFileName = 'runtrace-2012-01-16-0.csv'
-data <- csv.get(inputFileName, sep=';')
-
-# eerste indexwaarde eruitgooien, dit maakt sommige grafiekjes duidelijker
-data <- subset(data, Index > 0)
-dataTable <- data.table(data) 
-grouped <- dataTable[, list(Fitness=mean(Fitness)), by=list(Problem, Heuristic, Instance, Index)]
-
+#inputFileName = 'runtrace-2012-01-30-13.csv'
 widthDetails.legendGrob <- function(x) unit(2.5, "cm")
 
-getInstancesPlot <- function(problem='SAT'){
+getDataTable <- function(inputFileName){
+	data <- csv.get(inputFileName, sep=';')
+	# eerste indexwaarde eruitgooien, dit maakt sommige grafiekjes duidelijker
+	data <- subset(data, Index > 0)
+	return(data.table(data) )
+}
+
+getGrouped <- function(inputFileName) {
+	dataTable <- getDataTable(inputFileName)
+	grouped <- dataTable[, list(Fitness=mean(Fitness)), by=list(Problem, Heuristic, Instance, Index)]
+	return(grouped)
+}
+
+getInstancesPlot <- function(problem='SAT', inputFileName){
+	grouped <- getGrouped(inputFileName)
+	
 	instances <- unique(grouped$Instance)
 	problems <- unique(grouped$Problem)
 	heuristics <- unique(grouped$Heuristic)
@@ -44,38 +51,39 @@ getInstancesPlot <- function(problem='SAT'){
 	return(plots)
 }
 
-plotInstances <- function(problem='SAT'){
-	do.call(grid.arrange, getInstancesPlot(problem))
+plotInstances <- function(problem='SAT', inputFileName){
+	do.call(grid.arrange, getInstancesPlot(problem, inputFileName))
 }
 
-generateBoxPlot <- function(problem='SAT'){
+generateBoxPlot <- function(problem='SAT', dataTable){
 	boxPlotData <- dataTable[Problem==problem]
 	boxPlot <- qplot(boxPlotData$Heuristic, boxPlotData$Fitness, geom=c("boxplot"), xlab = "Heuristic", ylab = "Fitness", main = problem) + geom_jitter(position=position_jitter(w=0.3, h=0.1), aes(colour=boxPlotData$Heuristic), alpha=0.15) + opts(legend.position="none")
 
 	return(boxPlot)
 }
 
-plotBoxPlots <- function() {
+plotBoxPlots <- function(inputFileName) {
+	dataTable <- getDataTable(inputFileName)
 	problems <- unique(dataTable $Problem)
 	plots <- list()
 	for(p in problems){
-		plots[[toString(p)]] <- generateBoxPlot(p) 
+		plots[[toString(p)]] <- generateBoxPlot(p, dataTable) 
 	}
-	plots[["main"]] <- "BoxPlots"
+	#plots[["main"]] <- "BoxPlots"
 	do.call(grid.arrange, plots)
 }
 
-outputBoxPlotsToPdf <- function() {
+outputBoxPlotsToPdf <- function(inputFileName) {
 	pdf(paste(inputFileName,'BoxPlots.pdf',sep=''), paper='a4')
-	plotBoxPlots()
+	plotBoxPlots(inputFileName)
 	dev.off()
 }
 
-outputToPdf <- function() {
+outputToPdf <- function(inputFileName) {
 	problems <- unique(grouped$Problem)
 	pdf(paste(inputFileName,'.pdf',sep=''), paper='a4')
 	for(p in problems){
-		do.call(grid.arrange, getInstancesPlot(p))
+		do.call(grid.arrange, getInstancesPlot(p, inputFileName))
 	}
 	dev.off()
 }
