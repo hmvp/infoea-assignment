@@ -51,8 +51,8 @@ getInstancesPlot <- function(problem='SAT', inputFileName){
 	return(plots)
 }
 
-plotInstances <- function(problem='SAT'){
-	do.call(grid.arrange, getInstancesPlot(problem))
+plotInstances <- function(problem='SAT', inputFileName){
+	do.call(grid.arrange, getInstancesPlot(problem, inputFileName))
 }
 
 generateBoxPlot <- function(problem='SAT', dataTable){
@@ -73,9 +73,9 @@ plotBoxPlots <- function(inputFileName) {
 	do.call(grid.arrange, plots)
 }
 
-outputBoxPlotsToPdf <- function() {
+outputBoxPlotsToPdf <- function(inputFileName) {
 	pdf(paste(inputFileName,'BoxPlots.pdf',sep=''), paper='a4')
-	plotBoxPlots()
+	plotBoxPlots(inputFileName)
 	dev.off()
 }
 

@@ -136,5 +136,20 @@ plotBoxPlots("../plots/FlowShopMutations.csv")
 @
 \end_layout
 
+\begin_layout Chunk
+
+<<FlowShopMutation2,fig=TRUE,width=6,height=4>>=
+\end_layout
+
+\begin_layout Chunk
+
+plotInstances("FlowShop", "../plots/FlowShopMutations.csv")
+\end_layout
+
+\begin_layout Chunk
+
+@
+\end_layout
+
 \end_body
 \end_document
