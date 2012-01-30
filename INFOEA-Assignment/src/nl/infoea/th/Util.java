@@ -28,7 +28,7 @@ public class Util {
 		mutateHeuristic.put(Problem.SAT, 1);// 0, 1, 2, 3, 4, 5
 		mutateHeuristic.put(Problem.BinPacking, 2);// 0,3,5
 		mutateHeuristic.put(Problem.PersonnelScheduling, 11);// 11
-		mutateHeuristic.put(Problem.FlowShop, 2);// 0-4
+		mutateHeuristic.put(Problem.FlowShop, 0);// 0-4
 		mutateHeuristic.put(Problem.VRP, 1);// 0,1,7
 		mutateHeuristic.put(Problem.TSP, 2);// 0, 1, 2, 3, 4
 
