@@ -1,8 +1,9 @@
-package nl.infoea.th;
+package nl.infoea.th.Heuristics;
 
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import nl.infoea.th.Util;
 import AbstractClasses.HyperHeuristic;
 import AbstractClasses.ProblemDomain;
 

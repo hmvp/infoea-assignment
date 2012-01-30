@@ -1,4 +1,4 @@
-package nl.infoea.th;
+package nl.infoea.th.Heuristics;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import nl.infoea.th.Util;
+import nl.infoea.th.ValueComparator;
 import AbstractClasses.HyperHeuristic;
 import AbstractClasses.ProblemDomain;
 

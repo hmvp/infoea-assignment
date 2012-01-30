@@ -1,4 +1,4 @@
-package nl.infoea.th;
+package nl.infoea.th.Heuristics;
 
 import AbstractClasses.HyperHeuristic;
 import AbstractClasses.ProblemDomain;

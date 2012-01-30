@@ -6,7 +6,7 @@ package nl.infoea.th;
 import java.util.Comparator;
 import java.util.Map;
 
-class ValueComparator<K, V extends Comparable<V>> implements Comparator<K> {
+public class ValueComparator<K, V extends Comparable<V>> implements Comparator<K> {
 
 	Map<K, V> base;
 

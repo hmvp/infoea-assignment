@@ -71,73 +71,6 @@ public class ProblemRunner
 	public static final long SEED = 123457890;
 	public static final long TIMELIMIT = 40000;//600000
 
-
-	/**
-	 * This method creates the relevant HyperHeuristic object from the index
-	 * given as a parameter. after the HyperHeuristic object is created, its
-	 * time limit is set.
-	 * 
-	 * Deze methode MOET synchronized omdat er een wtf static in de HyperHeuristic class zit die nergens op slaat!!
-	 */
-	private synchronized static HyperHeuristic loadHyperHeuristic(Heuristic index,
-			long timeLimit, long seed) 
-	{
-		HyperHeuristic h = null;
-		switch (index) 
-		{
-			case ILS:
-				h = new IteratedLocalSearch(seed);
-				break;
-			case RHILS:
-				h = new RandomHeuristicIteratedLocalSearch(seed);
-				break;
-			case GLS:
-				h = new GeneticLocalSearch(seed);
-				break;
-			case AGLS:
-				h = new AdaptiveGeneticLocalSearch(seed);
-				break;
-			case AGLS1_1:
-				h = new AdaptiveGeneticLocalSearch(seed, 0.1, 0.1);
-				break;
-			case AGLS1_5:
-				h = new AdaptiveGeneticLocalSearch(seed, 0.1, 0.5);
-				break;
-			case AGLS1_7:
-				h = new AdaptiveGeneticLocalSearch(seed, 0.1, 0.7);
-				break;
-			case AGLS5_1:
-				h = new AdaptiveGeneticLocalSearch(seed, 0.5, 0.1);
-				break;
-			case AGLS5_5:
-				h = new AdaptiveGeneticLocalSearch(seed, 0.5, 0.5);
-				break;
-			case AGLS7_1:
-				h = new AdaptiveGeneticLocalSearch(seed, 0.7, 0.1);
-				break;
-			case AGLS7_7:
-				h = new AdaptiveGeneticLocalSearch(seed, 0.7, 0.7);
-				break;
-			case ILSFlowShop0:
-				h = new IteratedLocalSearch(seed, 0);
-				break;
-			case ILSFlowShop1:
-				h = new IteratedLocalSearch(seed, 1);
-				break;
-			case ILSFlowShop2:
-				h = new IteratedLocalSearch(seed, 2);
-				break;
-			case ILSFlowShop3:
-				h = new IteratedLocalSearch(seed, 3);
-				break;
-			case ILSFlowShop4:
-				h = new IteratedLocalSearch(seed, 4);
-				break;
-		}
-		h.setTimeLimit(timeLimit);
-		return h;
-	}
-
 	public static void main(String[] args) 
 	{
 
@@ -197,7 +130,7 @@ public class ProblemRunner
 								// which is set after the object is created in the
 								// loadHyperHeuristic method
 								HyperHeuristic hyperHeuristic =
-										loadHyperHeuristic(heuristic, TIMELIMIT,
+										heuristic.getHyperHeuristic(TIMELIMIT,
 												randomNumberGenerator.nextLong());
 			
 								// the required instance is loaded in the ProblemDomain
