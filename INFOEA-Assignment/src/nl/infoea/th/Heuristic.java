@@ -115,11 +115,13 @@ public enum Heuristic
 	 * 
 	 * Deze methode MOET synchronized omdat er een wtf static in de HyperHeuristic class zit die nergens op slaat!!
 	 */
-	public synchronized HyperHeuristic getHyperHeuristic(long timeLimit, long seed)
+	public HyperHeuristic getHyperHeuristic(long timeLimit, long seed)
 	{
-		HyperHeuristic h = createHyperHeuristic(seed);
-		h.setTimeLimit(timeLimit);
-		return h;
+		synchronized (AGLS) {
+			HyperHeuristic h = createHyperHeuristic(seed);
+			h.setTimeLimit(timeLimit);
+			return h;
+		}
 	}
 
 	abstract protected HyperHeuristic createHyperHeuristic(long seed);
