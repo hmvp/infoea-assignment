@@ -38,33 +38,38 @@ public class ProblemRunner
 {
 
 	public static final int RUNS = 3;//5
-	public static final int INSTANCES = 5;//10
+	public static final int INSTANCES = 3;//10
 	public static final Problem[] PROBLEMS = new Problem[]
 	{
-		Problem.SAT, 
-		Problem.BinPacking, 
-		Problem.PersonnelScheduling, 
+//		Problem.SAT, 
+//		Problem.BinPacking, 
+//		Problem.PersonnelScheduling, 
 		Problem.FlowShop,
 		//Problem.VRP,
 		//Problem.TSP,
 	};//Problem.values()
 	public static final Heuristic[] HEURISTICS = new Heuristic[]
 	{
-		Heuristic.ILS, 
-		Heuristic.GLS, 
-		Heuristic.AGLS,
-		Heuristic.AGLS1_1,
-		Heuristic.AGLS1_5,
-		Heuristic.AGLS5_1,
-		Heuristic.AGLS5_5,
-		Heuristic.AGLS1_7,
-		Heuristic.AGLS7_1,
-		Heuristic.AGLS7_7,		
+//		Heuristic.ILS, 
+//		Heuristic.GLS, 
+//		Heuristic.AGLS,
+//		Heuristic.AGLS1_1,
+//		Heuristic.AGLS1_5,
+//		Heuristic.AGLS5_1,
+//		Heuristic.AGLS5_5,
+//		Heuristic.AGLS1_7,
+//		Heuristic.AGLS7_1,
+//		Heuristic.AGLS7_7,	
+		Heuristic.ILSFlowShop0,
+		Heuristic.ILSFlowShop1,
+		Heuristic.ILSFlowShop2,
+		Heuristic.ILSFlowShop3,
+		Heuristic.ILSFlowShop4,
 		//Heuristic.RHILS,
 	};//Heuristic.values()
 	public static final int THREADS = 2;
 	public static final long SEED = 123457890;
-	public static final long TIMELIMIT = 60000;//600000
+	public static final long TIMELIMIT = 40000;//600000
 
 
 	/**
@@ -112,6 +117,21 @@ public class ProblemRunner
 				break;
 			case AGLS7_7:
 				h = new AdaptiveGeneticLocalSearch(seed, 0.7, 0.7);
+				break;
+			case ILSFlowShop0:
+				h = new IteratedLocalSearch(seed, 0);
+				break;
+			case ILSFlowShop1:
+				h = new IteratedLocalSearch(seed, 1);
+				break;
+			case ILSFlowShop2:
+				h = new IteratedLocalSearch(seed, 2);
+				break;
+			case ILSFlowShop3:
+				h = new IteratedLocalSearch(seed, 3);
+				break;
+			case ILSFlowShop4:
+				h = new IteratedLocalSearch(seed, 4);
 				break;
 		}
 		h.setTimeLimit(timeLimit);
