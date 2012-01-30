@@ -13,7 +13,37 @@ import VRP.VRP;
 
 public enum Problem 
 {
-	SAT, BinPacking, PersonnelScheduling, FlowShop, VRP, TSP;
+	SAT {
+		@Override
+		public ProblemDomain getProblemDomain(long instanceseed) {
+			return new SAT(instanceseed);
+		}
+	}, BinPacking {
+		@Override
+		public ProblemDomain getProblemDomain(long instanceseed) {
+			return new BinPacking(instanceseed);
+		}
+	}, PersonnelScheduling {
+		@Override
+		public ProblemDomain getProblemDomain(long instanceseed) {
+			return new PersonnelScheduling(instanceseed);
+		}
+	}, FlowShop {
+		@Override
+		public ProblemDomain getProblemDomain(long instanceseed) {
+			return new FlowShop(instanceseed);
+		}
+	}, VRP {
+		@Override
+		public ProblemDomain getProblemDomain(long instanceseed) {
+			return new VRP(instanceseed);
+		}
+	}, TSP {
+		@Override
+		public ProblemDomain getProblemDomain(long instanceseed) {
+			return new TSP(instanceseed);
+		}
+	};
 
 	public static Problem asEnum(ProblemDomain problem) {
 		if (problem instanceof SAT)
@@ -31,4 +61,12 @@ public enum Problem
 		else 
 			throw new RuntimeException("Wrong Type");
 	}
+	
+	/**
+	 * this method creates the relevant ProblemDomain object from the index
+	 * given as a parameter. for each instance, the ProblemDomain is initialised
+	 * with an identical seed for each hyper-heuristic. this is so that each
+	 * hyper-heuristic starts its search from the same initial solution.
+	 */
+	abstract public ProblemDomain getProblemDomain(long instanceseed);
 }

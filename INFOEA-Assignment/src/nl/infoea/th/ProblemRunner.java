@@ -5,14 +5,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import travelingSalesmanProblem.TSP;
 import AbstractClasses.HyperHeuristic;
 import AbstractClasses.ProblemDomain;
-import BinPacking.BinPacking;
-import FlowShop.FlowShop;
-import PersonnelScheduling.PersonnelScheduling;
-import SAT.SAT;
-import VRP.VRP;
 
 /**
  * Based on ExampleRun2.java from the CHeSC project
@@ -73,7 +67,6 @@ public class ProblemRunner
 	public static final long TIMELIMIT = 60000;//600000
 
 
-
 	/**
 	 * This method creates the relevant HyperHeuristic object from the index
 	 * given as a parameter. after the HyperHeuristic object is created, its
@@ -100,63 +93,29 @@ public class ProblemRunner
 				h = new AdaptiveGeneticLocalSearch(seed);
 				break;
 			case AGLS1_1:
-				h = new AGLS1_1(seed);
+				h = new AdaptiveGeneticLocalSearch(seed, 0.1, 0.1);
 				break;
 			case AGLS1_5:
-				h = new AGLS1_5(seed);
+				h = new AdaptiveGeneticLocalSearch(seed, 0.1, 0.5);
 				break;
 			case AGLS1_7:
-				h = new AGLS1_5(seed);
+				h = new AdaptiveGeneticLocalSearch(seed, 0.1, 0.7);
 				break;
 			case AGLS5_1:
-				h = new AGLS5_1(seed);
+				h = new AdaptiveGeneticLocalSearch(seed, 0.5, 0.1);
 				break;
 			case AGLS5_5:
-				h = new AGLS5_5(seed);
+				h = new AdaptiveGeneticLocalSearch(seed, 0.5, 0.5);
 				break;
 			case AGLS7_1:
-				h = new AGLS7_1(seed);
+				h = new AdaptiveGeneticLocalSearch(seed, 0.7, 0.1);
 				break;
 			case AGLS7_7:
-				h = new AGLS7_7(seed);
+				h = new AdaptiveGeneticLocalSearch(seed, 0.7, 0.7);
 				break;
 		}
 		h.setTimeLimit(timeLimit);
 		return h;
-	}
-
-	/**
-	 * this method creates the relevant ProblemDomain object from the index
-	 * given as a parameter. for each instance, the ProblemDomain is initialised
-	 * with an identical seed for each hyper-heuristic. this is so that each
-	 * hyper-heuristic starts its search from the same initial solution.
-	 */
-	private static ProblemDomain loadProblemDomain(Problem index,
-			long instanceseed) 
-	{
-		ProblemDomain p = null;
-		switch (index) 
-		{
-			case SAT:
-				p = new SAT(instanceseed);
-				break;
-			case BinPacking:
-				p = new BinPacking(instanceseed);
-				break;
-			case PersonnelScheduling:
-				p = new PersonnelScheduling(instanceseed);
-				break;
-			case FlowShop:
-				p = new FlowShop(instanceseed);
-				break;
-			case VRP:
-				p = new VRP(instanceseed);
-				break;
-			case TSP:
-				p = new TSP(instanceseed);
-				break;
-		}
-		return p;
 	}
 
 	public static void main(String[] args) 
@@ -211,8 +170,7 @@ public class ProblemRunner
 								// is initialised in the same way,
 								// and each hyper-heuristic will begin from the same initial
 								// solution.
-								ProblemDomain problemDomain =
-										loadProblemDomain(problem, instanceSeed);
+								ProblemDomain problemDomain = problem.getProblemDomain(instanceSeed);
 			
 								// we create the hyper-heuristic object from the
 								// hyperheuristic index. we provide the time limit,

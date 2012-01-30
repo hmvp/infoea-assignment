@@ -17,8 +17,8 @@ public class AdaptiveGeneticLocalSearch extends HyperHeuristic {
 
 	private static double pMin = 0.1;
 	private double pMax;
-	protected static double alpha = 0.5;
-	protected static double beta = 0.5;
+	private double alpha = 0.5;
+	private double beta = 0.5;
 
 	// P_i(t): Chance to pick heuristic i
 	private Map<AdaptiveChoice, Double> Pt =
@@ -37,6 +37,18 @@ public class AdaptiveGeneticLocalSearch extends HyperHeuristic {
 		super(seed);
 		// store solutions sorted by fitness, to easily get the worst solution.
 		solutions = new TreeMap<Double, Integer>();
+	}
+	
+	/**
+	 * creates a new ExampleHyperHeuristic object with a random seed
+	 * and specified alpha and beta
+	 */
+	public AdaptiveGeneticLocalSearch(long seed, double alpha, double beta) {
+		super(seed);
+		// store solutions sorted by fitness, to easily get the worst solution.
+		solutions = new TreeMap<Double, Integer>();
+		this.alpha = alpha;
+		this.beta = beta;
 	}
 
 	public enum AdaptiveChoice {
