@@ -13,6 +13,7 @@ import java.io.PrintStream;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -269,7 +270,7 @@ public class ScoreKeeper {
 			csv.close();
 		}
 				
-		progress.println("Run: " + postfix);
+		progress.println("Run: " + postfix + " " + new Time(System.currentTimeMillis()));
 		progress.println("Parameters: ");
 		progress.println("\tRuns: " + ProblemRunner.RUNS);
 		progress.println("\tProblems: " + Arrays.toString(ProblemRunner.PROBLEMS));

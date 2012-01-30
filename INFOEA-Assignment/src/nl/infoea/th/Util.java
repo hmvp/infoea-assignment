@@ -1,6 +1,5 @@
 package nl.infoea.th;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -83,13 +82,5 @@ public class Util {
 	 */
 	public static int getLocalSearchHeuristic(ProblemDomain problem) {
 		return localSearchHeuristic.get(Problem.asEnum(problem));
-	}
-
-	public static double sum(Collection<? extends Number> nums) {
-		double s = 0d;
-		for (Number num : nums) {
-			s += num.doubleValue();
-		}
-		return s;
 	}
 }
