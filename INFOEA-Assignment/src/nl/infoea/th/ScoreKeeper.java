@@ -293,7 +293,7 @@ public class ScoreKeeper {
 				}
 			});
 			
-			copyFileToStream(REPORTDIR + "/report.tex", latex);
+			copyFileToStream("plots/report.tex", latex);
 			
 		} 
 		catch (IOException e) 
