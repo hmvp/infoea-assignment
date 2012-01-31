@@ -29,20 +29,36 @@ import AbstractClasses.ProblemDomain;
 
 /**
  * @author hiram
- *
+ * This class is receives all the scores and analyzes part of it.
  */
 public class ScoreKeeper {
 	
-	private static final String REPORTDIR = "plots";
+	private static final String REPORTDIR = "results";
 
+	/**
+	 * To store scores in
+	 */
 	Map<Problem, Map<Integer, Map<Heuristic, ArrayList<Double>>>> scores = new HashMap<Problem, Map<Integer,Map<Heuristic,ArrayList<Double>>>>();
 	
 	PrintStream csv;
 	PrintStream latex;
 	PrintStream progress;
 
+	/**
+	 * to make sure output files are unique
+	 */
 	private String postfix;
 	
+	/**
+	 * This method is called every time after a hyperheuristic is run
+	 * This records the score of the hyperheuristic
+	 * @param run
+	 * @param heuristic
+	 * @param problem
+	 * @param instance
+	 * @param problemDomain
+	 * @param hyperHeuristic
+	 */
 	public synchronized void recordScore(int run, Heuristic heuristic, Problem problem, int instance, ProblemDomain problemDomain, HyperHeuristic hyperHeuristic)
 	{
 		if(!scores.containsKey(problem))
@@ -63,6 +79,12 @@ public class ScoreKeeper {
 	
 	
 	/**
+	 * Display results for R readable output (csv)
+	 * Is called after every hyperheuristic.solve
+	 * @param run
+	 * @param heuristic
+	 * @param problem
+	 * @param instance
 	 * @param problemDomain
 	 * @param hyperHeuristic
 	 */
@@ -79,7 +101,14 @@ public class ScoreKeeper {
 
 
 	/**
-	 * 
+	 * Display results for human-readable progress output
+	 * Is called after every hyperheuristic.solve
+	 * @param run
+	 * @param heuristic 
+	 * @param problem
+	 * @param instance
+	 * @param problemDomain
+	 * @param hyperHeuristic
 	 */
 	private void displayResults(int run, Heuristic heuristic, Problem problem, int instance, ProblemDomain problemDomain,
 			HyperHeuristic hyperHeuristic)
@@ -100,7 +129,7 @@ public class ScoreKeeper {
 		// we print the results of this hyper-heuristic on this
 		// problem instance
 		// print the name of this hyper-heuristic
-		progress.println("Run: "+ run + " " + problem + instance+ ": " + hyperHeuristic.toString());
+		progress.println("Run: "+ run + " " + problem + instance+ ": " + heuristic);
 		// print the best solution found within the time limit
 		progress.print("\tBest: "
 				+ hyperHeuristic.getBestSolutionValue());
@@ -121,7 +150,11 @@ public class ScoreKeeper {
 
 	}
 
-
+	/**
+	 * This method analyzes the contents of the score field
+	 * This method is called after every heuristic is finished
+	 * This method prints the borda count as latex source
+	 */
 	public void analyze()
 	{
 		progress.println("Run finished!");

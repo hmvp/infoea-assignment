@@ -61,7 +61,10 @@ import AbstractClasses.ProblemDomain;
  * 10.
  */
 
-public class IteratedLocalSearch extends HyperHeuristic {
+public class IteratedLocalSearch extends HyperHeuristic 
+{
+	private int mutationHeuristicToApply = -1;
+	
 	/**
 	 * creates a new ExampleHyperHeuristic object with a random seed
 	 */
@@ -69,11 +72,15 @@ public class IteratedLocalSearch extends HyperHeuristic {
 		super(seed);
 	}
 
-	private int mutationHeuristic = -1;
-
+	/**
+	 * creates a new ExampleHyperHeuristic object with a random seed
+	 * Uses parameters to test crossover heuristics
+	 * @param seed
+	 * @param mutationHeuristic
+	 */
 	public IteratedLocalSearch(long seed, int mutationHeuristic) {
 		this(seed);
-		this.mutationHeuristic = mutationHeuristic;
+		mutationHeuristicToApply = mutationHeuristic;
 	}
 
 	/**
@@ -99,9 +106,10 @@ public class IteratedLocalSearch extends HyperHeuristic {
 		// has been reached
 		while (!hasTimeExpired()) {
 
-			int mutationHeuristicToApply =
-					mutationHeuristic != -1 ? mutationHeuristic : Util
-							.getMutationHeuristic(problem);
+			//get Heuristics
+			if(mutationHeuristicToApply == -1)
+				mutationHeuristicToApply  = Util.getMutationHeuristic(problem);
+			
 			int localSearchHeuristicToApply =
 					Util.getLocalSearchHeuristic(problem);
 

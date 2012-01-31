@@ -117,6 +117,7 @@ public enum Heuristic
 	 */
 	public HyperHeuristic getHyperHeuristic(long timeLimit, long seed)
 	{
+		//just synchronize on some object since the method lock would be on different objects
 		synchronized (AGLS) {
 			HyperHeuristic h = createHyperHeuristic(seed);
 			h.setTimeLimit(timeLimit);

@@ -11,7 +11,8 @@ public class GeneticLocalSearch extends HyperHeuristic {
 
 	private SortedMap<Double, Integer> solutions;
 	private int workingMemoryLocation;
-	private int localSearchHeuristicToApply;
+	private int localSearchHeuristicToApply = -1;
+	private int crossoverHeuristicToApply = -1;
 
 	/**
 	 * creates a new ExampleHyperHeuristic object with a random seed
@@ -20,6 +21,17 @@ public class GeneticLocalSearch extends HyperHeuristic {
 		super(seed);
 		// store solutions sorted by fitness, to easily get the worst solution.
 		solutions = new TreeMap<Double, Integer>();
+	}
+	
+	/**
+	 * creates a new ExampleHyperHeuristic object with a random seed
+	 * Uses parameters to test crossover heuristics
+	 */
+	public GeneticLocalSearch(long seed, int heuristic) {
+		super(seed);
+		// store solutions sorted by fitness, to easily get the worst solution.
+		solutions = new TreeMap<Double, Integer>();
+		crossoverHeuristicToApply = heuristic;
 	}
 
 	/**
@@ -46,9 +58,13 @@ public class GeneticLocalSearch extends HyperHeuristic {
 		}
 
 		// get Heuristics to apply
-		int crossoverHeuristicToApply = Util.getCrossoverHeuristic(problem);
+		if (crossoverHeuristicToApply  == -1)
+			crossoverHeuristicToApply = Util.getCrossoverHeuristic(problem);
+		
 		int mutationHeuristicToApply = Util.getMutationHeuristic(problem);
-		localSearchHeuristicToApply = Util.getLocalSearchHeuristic(problem);
+		
+		if (localSearchHeuristicToApply == -1)
+			localSearchHeuristicToApply = Util.getLocalSearchHeuristic(problem);
 
 		
 		// the main loop of any hyper-heuristic, which checks if the time limit

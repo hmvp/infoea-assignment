@@ -17,24 +17,24 @@ public class Util {
 			new HashMap<Problem, Integer>();
 
 	static {
-		crossoverHeuristic.put(Problem.SAT, 9);// 9,10
+		crossoverHeuristic.put(Problem.SAT, 9);// 9,10  Best:9
 		crossoverHeuristic.put(Problem.BinPacking, 7);// 7
-		crossoverHeuristic.put(Problem.PersonnelScheduling, 10);// 8-10
-		crossoverHeuristic.put(Problem.FlowShop, 12);// 11-14
+		crossoverHeuristic.put(Problem.PersonnelScheduling, 9);// 8-10 Best: 9
+		crossoverHeuristic.put(Problem.FlowShop, 13);// 11-14 Best:13
 		crossoverHeuristic.put(Problem.VRP, 5);// 5,6
 		crossoverHeuristic.put(Problem.TSP, 9);// 9, 10, 11, 12
 		
-		mutateHeuristic.put(Problem.SAT, 1);// 0, 1, 2, 3, 4, 5
-		mutateHeuristic.put(Problem.BinPacking, 2);// 0,3,5
+		mutateHeuristic.put(Problem.SAT, 5);// 0, 1, 2, 3, 4, 5 Best: 3,5
+		mutateHeuristic.put(Problem.BinPacking, 3);// 0,3,5 Best: 3
 		mutateHeuristic.put(Problem.PersonnelScheduling, 11);// 11
 		mutateHeuristic.put(Problem.FlowShop, 0);// 0-4
 		mutateHeuristic.put(Problem.VRP, 1);// 0,1,7
 		mutateHeuristic.put(Problem.TSP, 2);// 0, 1, 2, 3, 4
 
-		localSearchHeuristic.put(Problem.SAT, 7);// 7,8
-		localSearchHeuristic.put(Problem.BinPacking, 6);// 4, 6
-		localSearchHeuristic.put(Problem.PersonnelScheduling, 4);// 0-4
-		localSearchHeuristic.put(Problem.FlowShop, 9);// 7-10
+		localSearchHeuristic.put(Problem.SAT, 7);// 7,8 Best: 7
+		localSearchHeuristic.put(Problem.BinPacking, 6);// 4, 6 Best: 6
+		localSearchHeuristic.put(Problem.PersonnelScheduling, 3);// 0-4 Best: 3
+		localSearchHeuristic.put(Problem.FlowShop, 7);// 7-10 Best: 7
 		localSearchHeuristic.put(Problem.VRP, 9);// 4,8,9
 		localSearchHeuristic.put(Problem.TSP, 7);// 6, 7, 8
 	}
