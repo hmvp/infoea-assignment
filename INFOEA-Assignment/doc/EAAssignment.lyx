@@ -69,7 +69,7 @@ status open
 
 \begin_layout Plain Layout
 
-echo=FALSE 
+echo=FALSE,center.fig=TRUE 
 \end_layout
 
 \end_inset
@@ -113,12 +113,1103 @@ and
  Tim Soethout
 \end_layout
 
+\begin_layout Verse
+Evolutionary Computing Course 2011--2012, University of Utrecht
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+The goal of this assignment is to get acquainted with metaheuristic search.
+ Multiple algorithms were run on four different applications.
+ The algorithms are 
+\emph on
+Iterated Local Search
+\emph default
+ (ILS), 
+\emph on
+Genertic Local Search
+\emph default
+ (GLS) and 
+\emph on
+Adaptive Genetic Local Search
+\emph default
+ (AGLS).
+ The four problem domains are 
+\emph on
+Maximum Satisfiability
+\emph default
+, 
+\emph on
+One Dimensional Bin Packing
+\emph default
+, 
+\emph on
+Permutation Flow Shop
+\emph default
+ and 
+\emph on
+Personnel Scheduling
+\emph default
+.
+ 
+\end_layout
+
+\begin_layout Section
+Implementation
+\end_layout
+
+\begin_layout Subsection
+Framework
+\end_layout
+
+\begin_layout Standard
+For implementing the algorithms the HyFlex framework
+\begin_inset CommandInset citation
+LatexCommand cite
+key "burke2009hyflex"
+
+\end_inset
+
+ is used.
+ This framework contains a base for the algoruhms and definitions and instances
+ of the problems.
+\end_layout
+
+\begin_layout Subsection
+ILS
+\end_layout
+
+\begin_layout Standard
+Iterated Local Search begins with intializing a random first solution.
+ Then until the time limit is reached, repeats applying a predifined mutation
+ and local search and replaces the solutions of the result is better.
+ There is a 50 percent chance that a worse solution is accepted anyway.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula $s\leftarrow$
+\end_inset
+
+
+\noun on
+GenerateInitialSolution()
+\end_layout
+
+\begin_layout Plain Layout
+
+\series bold
+while
+\series default
+ 
+\noun on
+
+\begin_inset Formula $\neg$
+\end_inset
+
+TimeExpired()
+\end_layout
+
+\begin_layout Plain Layout
+
+\series bold
+do
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $s'\leftarrow$
+\end_inset
+
+
+\noun on
+ Mutate(
+\begin_inset Formula $s$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $s''\leftarrow$
+\end_inset
+
+ 
+\noun on
+LocalSearch(
+\begin_inset Formula $s'$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\series bold
+if
+\series default
+ 
+\begin_inset Formula $f(s'')>f(s)\lor P(50\%)=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $s\leftarrow s''$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Iterated Local Search
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+GLS
+\end_layout
+
+\begin_layout Standard
+Genetic Local Search initialized a random population 
+\begin_inset Formula $P$
+\end_inset
+
+ of size 
+\begin_inset Formula $n=10$
+\end_inset
+
+.
+ With a 50 percent chance either 
+\emph on
+crossover
+\emph default
+ or a standard LS iteration is done.
+ A new solution is inserted in the population when the acceptance criterion
+ is reached.
+ This is done by replacing the worst solution when the fitness od the new
+ solution is higher.
+ In the case of ILS there is also a 50% chance a worse solution is inserted.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+for all
+\series default
+ 
+\begin_inset Formula $s\in P$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\series bold
+do
+\series default
+ 
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $s\leftarrow$
+\end_inset
+
+
+\noun on
+GenerateInitialSolution()
+\end_layout
+
+\begin_layout Plain Layout
+
+\series bold
+while
+\series default
+ 
+\noun on
+
+\begin_inset Formula $\neg$
+\end_inset
+
+TimeExpired()
+\end_layout
+
+\begin_layout Plain Layout
+
+\series bold
+do
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $p_{1}\leftarrow$
+\end_inset
+
+ 
+\noun on
+RandomSelectFromPupulation(
+\begin_inset Formula $P$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $p_{2}\leftarrow$
+\end_inset
+
+ 
+\noun on
+RandomSelectFromPupulation(
+\begin_inset Formula $P$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\series bold
+if
+\series default
+ 
+\begin_inset Formula $P(50\%)=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\series bold
+then
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $s'\leftarrow$
+\end_inset
+
+ 
+\noun on
+CrossOver(
+\begin_inset Formula $p_{1},p_{2}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $s''\leftarrow$
+\end_inset
+
+
+\noun on
+ LocalSearch(
+\begin_inset Formula $s'$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\noun on
+AcceptanceCriterion(
+\begin_inset Formula $P,s''$
+\end_inset
+
+);
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\series bold
+else
+\series default
+ 
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $p_{1}'\leftarrow$
+\end_inset
+
+
+\noun on
+ Mutate(
+\begin_inset Formula $p_{1}$
+\end_inset
+
+); 
+\noun default
+
+\begin_inset Formula $p_{2}'\leftarrow$
+\end_inset
+
+
+\noun on
+ Mutate(
+\begin_inset Formula $p_{2}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $p_{1}''\leftarrow$
+\end_inset
+
+ 
+\noun on
+LocalSearch(
+\begin_inset Formula $p_{1}'$
+\end_inset
+
+);
+\noun default
+ 
+\begin_inset Formula $p_{2}''\leftarrow$
+\end_inset
+
+ 
+\noun on
+LocalSearch(
+\begin_inset Formula $p_{2}'$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\noun on
+AcceptanceCriterion(
+\begin_inset Formula $P,p_{1}''$
+\end_inset
+
+); AcceptanceCriterion(
+\begin_inset Formula $P,p_{2}''$
+\end_inset
+
+);
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Genetic Local Search
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+AGLS
+\end_layout
+
+\begin_layout Standard
+Adaptive Genetic Local Search is a variant of Genetic Local Search where
+ 
+\emph on
+adaptive persuit
+\emph default
+ is used.
+ It is initialized with a random population 
+\begin_inset Formula $Pop$
+\end_inset
+
+ of size 
+\begin_inset Formula $n=10$
+\end_inset
+
+.
+ The adaptive part is the chance to do crossover or a local search iteration.
+ 
+\begin_inset Formula $P$
+\end_inset
+
+ is a list of the operators and their chances to be selected.
+ 
+\begin_inset Formula $Q$
+\end_inset
+
+ a list of operators and their expected outcome when applied.
+ Parameters 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ and 
+\begin_inset Formula $\beta$
+\end_inset
+
+ denote the proportionate increment of respectively the values of 
+\begin_inset Formula $P$
+\end_inset
+
+ and 
+\begin_inset Formula $Q$
+\end_inset
+
+ when a good operator is found.
+ The 
+\noun on
+AdaptiveUpdate 
+\noun default
+function updates the 
+\begin_inset Formula $P$
+\end_inset
+
+ and 
+\begin_inset Formula $Q$
+\end_inset
+
+ values according to the adaptive persuit algorithm.
+ The acceptance criterion is equal to the one in GLS.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+for all
+\series default
+ 
+\begin_inset Formula $s\in Pop$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\series bold
+do
+\series default
+ 
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $s\leftarrow$
+\end_inset
+
+
+\noun on
+GenerateInitialSolution()
+\end_layout
+
+\begin_layout Plain Layout
+
+\series bold
+while
+\series default
+ 
+\noun on
+
+\begin_inset Formula $\neg$
+\end_inset
+
+TimeExpired()
+\end_layout
+
+\begin_layout Plain Layout
+
+\series bold
+do
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $a^{s}\leftarrow$
+\end_inset
+
+ 
+\noun on
+ProportionallySelectOperator(
+\begin_inset Formula $P$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $p_{1}\leftarrow$
+\end_inset
+
+ 
+\noun on
+RandomSelectFromPupulation(
+\begin_inset Formula $Pop$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $p_{2}\leftarrow$
+\end_inset
+
+ 
+\noun on
+RandomSelectFromPupulation(
+\begin_inset Formula $Pop$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\series bold
+if
+\series default
+ 
+\begin_inset Formula $a_{s}\eqcirc CrossOver$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\series bold
+then
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $s'\leftarrow$
+\end_inset
+
+ 
+\noun on
+CrossOver(
+\begin_inset Formula $p_{1},p_{2}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\noun on
+AdaptiveUpdate(
+\begin_inset Formula $P,s''$
+\end_inset
+
+);
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\noun on
+AcceptanceCriterion(
+\begin_inset Formula $P,s''$
+\end_inset
+
+);
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\series bold
+else
+\series default
+ 
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $p_{1}'\leftarrow$
+\end_inset
+
+
+\noun on
+ Mutate(
+\begin_inset Formula $p_{1}$
+\end_inset
+
+); 
+\noun default
+
+\begin_inset Formula $p_{2}'\leftarrow$
+\end_inset
+
+
+\noun on
+ Mutate(
+\begin_inset Formula $p_{2}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\noun on
+AdaptiveUpdate(
+\begin_inset Formula $P,p_{1}''$
+\end_inset
+
+); AdaptiveUpdate(
+\begin_inset Formula $P,p_{2}''$
+\end_inset
+
+);
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\noun on
+AcceptanceCriterion(
+\begin_inset Formula $P,p_{1}''$
+\end_inset
+
+); AcceptanceCriterion(
+\begin_inset Formula $P,p_{2}''$
+\end_inset
+
+);
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Adaptive Genetic Local Search
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Parameters
+\end_layout
+
+\begin_layout Standard
+For each of the problem domains and algorithms it is possible to pick different
+ Mutation, Crossover and Local Search heuristics.
+\end_layout
+
+\begin_layout Standard
+This table shows the Heuristics we used:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Problem
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Mutation
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Crossover
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Local Search
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SAT
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bin Packing
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Personnel Scheduling
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+11
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FlowShop
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+13
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 Mutation Heuristic Selection
 \end_layout
 
 \begin_layout Subsubsection
 FlowShop
+\end_layout
+
+\begin_layout Standard
+The following graph shows the different mutations usable for FlowShop
 \end_layout
 
 \begin_layout Chunk
@@ -138,17 +1229,54 @@ plotBoxPlots("../plots/FlowShopMutations.csv")
 
 \begin_layout Chunk
 
-<<FlowShopMutation2,fig=TRUE,width=6,height=4>>=
+\end_layout
+
+\begin_layout Standard
+
+The runs of all mutations
 \end_layout
 
 \begin_layout Chunk
 
-plotInstances("FlowShop", "../plots/FlowShopMutations.csv")
+\end_layout
+
+\begin_layout Chunk
+
+<<FlowShopMutation2,fig=TRUE,width=5,height=6>>=
+\end_layout
+
+\begin_layout Chunk
+
+widthDetails.legendGrob <- function(x) unit(4, "cm")
+\end_layout
+
+\begin_layout Chunk
+
+grid.draw(plotInstances("FlowShop", "../plots/FlowShopMutations.csv"))
 \end_layout
 
 \begin_layout Chunk
 
 @
+\end_layout
+
+\begin_layout Section
+Results
+\end_layout
+
+\begin_layout Section
+Conclusion
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "literature"
+options "plain"
+
+\end_inset
+
+
 \end_layout
 
 \end_body

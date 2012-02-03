@@ -52,7 +52,7 @@ getInstancesPlot <- function(problem='SAT', inputFileName){
 }
 
 plotInstances <- function(problem='SAT', inputFileName){
-	do.call(grid.arrange, getInstancesPlot(problem, inputFileName))
+	return(do.call(arrangeGrob, getInstancesPlot(problem, inputFileName)))
 }
 
 generateBoxPlot <- function(problem='SAT', dataTable){
