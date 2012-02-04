@@ -809,7 +809,7 @@ RandomSelectFromPupulation(
 if
 \series default
  
-\begin_inset Formula $a_{s}\eqcirc CrossOver$
+\begin_inset Formula $a_{s}\equiv CrossOver$
 \end_inset
 
 
@@ -934,11 +934,11 @@ else
 
 \noun on
 AdaptiveUpdate(
-\begin_inset Formula $P,p_{1}''$
+\begin_inset Formula $P,Q,\alpha,\beta,p_{1}'$
 \end_inset
 
 ); AdaptiveUpdate(
-\begin_inset Formula $P,p_{2}''$
+\begin_inset Formula $P,Q,\alpha,\beta,p_{2}'$
 \end_inset
 
 );
@@ -955,11 +955,11 @@ AdaptiveUpdate(
 
 \noun on
 AcceptanceCriterion(
-\begin_inset Formula $P,p_{1}''$
+\begin_inset Formula $P,p_{1}'$
 \end_inset
 
 ); AcceptanceCriterion(
-\begin_inset Formula $P,p_{2}''$
+\begin_inset Formula $P,p_{2}'$
 \end_inset
 
 );
@@ -992,7 +992,82 @@ For each of the problem domains and algorithms it is possible to pick different
 \end_layout
 
 \begin_layout Standard
-This table shows the Heuristics we used:
+When running ILS on the Flow Shop problem it turned out the current chosen
+ mutation operator was not able to get out of the local optimum.
+ So we ran some short runs to see which ILSn mutation works for Flow Shop.
+\end_layout
+
+\begin_layout Standard
+The graph in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:FlowShop Mutations"
+
+\end_inset
+
+ shows the different mutations available for FlowShop.
+ It turns out operator 2 and 3 don't work on Flow Shop.
+ And operator 0 is best.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Chunk
+
+<<FlowShopMutation,fig=TRUE,width=6,height=8>>=
+\end_layout
+
+\begin_layout Chunk
+
+widthDetails.legendGrob <- function(x) unit(4, "cm")
+\end_layout
+
+\begin_layout Chunk
+
+grid.draw(plotInstances("FlowShop", "../plots/FlowShopMutations.csv"))
+\end_layout
+
+\begin_layout Chunk
+
+@
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Performance of different mutation operators on Flow Shop on the first three
+ instances.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:FlowShop Mutations"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+After finding this we ran some short test for most of the combinations of
+ algorithms, problems and operators where applicable.
+ Which resulted in the following most optimal combinations.
+ ILS uses the mutation and local search.
+ GLS and AGLS use all kinds.
+ Only GLS is run to determine the crossover results.
 \end_layout
 
 \begin_layout Standard
@@ -1200,72 +1275,24 @@ FlowShop
 
 \end_layout
 
-\begin_layout Subsection
-Mutation Heuristic Selection
-\end_layout
-
-\begin_layout Subsubsection
-FlowShop
-\end_layout
-
-\begin_layout Standard
-The following graph shows the different mutations usable for FlowShop
-\end_layout
-
-\begin_layout Chunk
-
-<<FlowShopMutation,fig=TRUE,width=6,height=4>>=
-\end_layout
-
-\begin_layout Chunk
-
-plotBoxPlots("../plots/FlowShopMutations.csv")
-\end_layout
-
-\begin_layout Chunk
-
-@
-\end_layout
-
-\begin_layout Chunk
-
-\end_layout
-
-\begin_layout Standard
-
-The runs of all mutations
-\end_layout
-
-\begin_layout Chunk
-
-\end_layout
-
-\begin_layout Chunk
-
-<<FlowShopMutation2,fig=TRUE,width=5,height=6>>=
-\end_layout
-
-\begin_layout Chunk
-
-widthDetails.legendGrob <- function(x) unit(4, "cm")
-\end_layout
-
-\begin_layout Chunk
-
-grid.draw(plotInstances("FlowShop", "../plots/FlowShopMutations.csv"))
-\end_layout
-
-\begin_layout Chunk
-
-@
-\end_layout
-
 \begin_layout Section
 Results
 \end_layout
 
 \begin_layout Section
 Conclusion
+\end_layout
+
+\begin_layout Subsection
+Critical Remarks
+\end_layout
+
+\begin_layout Subsubsection
+Framework
+\end_layout
+
+\begin_layout Subsubsection
+Operator choice
 \end_layout
 
 \begin_layout Standard
