@@ -36,9 +36,7 @@ import AbstractClasses.ProblemDomain;
  */
 public class ProblemRunner 
 {
-
-	public static final int RUNS = 3;//5
-	public static final int INSTANCES = 3;//10
+	//These fields enable us to switch algorithms and try new stuff
 	public static final Problem[] PROBLEMS = new Problem[]
 	{
 //		Problem.SAT, 
@@ -67,6 +65,8 @@ public class ProblemRunner
 		Heuristic.ILSFlowShop4,
 		//Heuristic.RHILS,
 	};//Heuristic.values()
+	public static final int RUNS = 3;//5
+	public static final int INSTANCES = 3;//10
 	public static final int THREADS = 2;
 	public static final long SEED = 123457890;
 	public static final long TIMELIMIT = 40000;//600000
@@ -82,7 +82,7 @@ public class ProblemRunner
 		// that the experiments can be easily replicated
 		final Random randomNumberGenerator = new Random(SEED);
 		
-		//Create a threadpool of two threads
+		//Create a threadpool of n threads
 		ExecutorService es = Executors.newFixedThreadPool(THREADS);
 				
 		//loop through runs
@@ -163,6 +163,7 @@ public class ProblemRunner
 			es.shutdown();
 			es.awaitTermination(5, TimeUnit.DAYS);
 			
+			//start the analysis
 			sc.analyze();
 		} 
 		catch (InterruptedException e) 

@@ -9,6 +9,12 @@ import nl.infoea.th.Heuristics.IteratedLocalSearch;
 import nl.infoea.th.Heuristics.RandomHeuristicIteratedLocalSearch;
 import AbstractClasses.HyperHeuristic;
 
+/**
+ * Abstract over the underlying hyperheuristics
+ * This enum makes it easier to try multiple heuristics or heuristics with 
+ * different parameters
+ *
+ */
 public enum Heuristic 
 {
 	ILS {
@@ -125,5 +131,10 @@ public enum Heuristic
 		}
 	}
 
+	/**
+	 * Instantiate the appropriate class unfortunately this has to be a overridden method
+	 * @param seed
+	 * @return
+	 */
 	abstract protected HyperHeuristic createHyperHeuristic(long seed);
 }

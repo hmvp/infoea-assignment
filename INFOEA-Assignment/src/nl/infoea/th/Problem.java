@@ -45,6 +45,12 @@ public enum Problem
 		}
 	};
 
+	/**
+	 * Convert a problemDomain to the right enumtype
+	 * This is because we only have acces to the problemDomain and we need the enum-typ
+	 * @param problem
+	 * @return
+	 */
 	public static Problem asEnum(ProblemDomain problem) {
 		if (problem instanceof SAT)
 			return SAT;

@@ -130,7 +130,7 @@ Iterated Local Search
 \emph default
  (ILS), 
 \emph on
-Genertic Local Search
+Genetic Local Search
 \emph default
  (GLS) and 
 \emph on
@@ -174,7 +174,7 @@ key "burke2009hyflex"
 \end_inset
 
  is used.
- This framework contains a base for the algoruhms and definitions and instances
+ This framework contains a base for the algorithms and definitions and instances
  of the problems.
 \end_layout
 
@@ -183,8 +183,8 @@ ILS
 \end_layout
 
 \begin_layout Standard
-Iterated Local Search begins with intializing a random first solution.
- Then until the time limit is reached, repeats applying a predifined mutation
+Iterated Local Search begins with initializing a random first solution.
+ Then until the time limit is reached, repeats applying a predefined mutation
  and local search and replaces the solutions of the result is better.
  There is a 50 percent chance that a worse solution is accepted anyway.
 \end_layout
@@ -330,7 +330,7 @@ crossover
  or a standard LS iteration is done.
  A new solution is inserted in the population when the acceptance criterion
  is reached.
- This is done by replacing the worst solution when the fitness od the new
+ This is done by replacing the worst solution when the fitness of the new
  solution is higher.
  In the case of ILS there is also a 50% chance a worse solution is inserted.
 \end_layout
@@ -634,7 +634,7 @@ AGLS
 Adaptive Genetic Local Search is a variant of Genetic Local Search where
  
 \emph on
-adaptive persuit
+adaptive pursuit
 \emph default
  is used.
  It is initialized with a random population 
@@ -686,7 +686,7 @@ function updates the
 \begin_inset Formula $Q$
 \end_inset
 
- values according to the adaptive persuit algorithm.
+ values according to the adaptive pursuit algorithm.
  The acceptance criterion is equal to the one in GLS.
 \end_layout
 
@@ -1291,8 +1291,75 @@ Critical Remarks
 Framework
 \end_layout
 
+\begin_layout Standard
+We found a quirk in the framework which made a workarounds necessary.
+ The Hyper-heuristic class uses a static variable which is unnecessarily
+ static.
+ This puts some constraints on the initialization phase in multithreaded
+ environments.
+ This is not a big issue, but together with other 
+\begin_inset Quotes eld
+\end_inset
+
+interesting
+\begin_inset Quotes erd
+\end_inset
+
+ choices within the framework it gives rise to some doubts about the quality
+ of code used in the framework.
+\end_layout
+
+\begin_layout Subsubsection
+getFitnessTrace()
+\end_layout
+
+\begin_layout Standard
+The original paper and the framework heavily rely on the use of 
+\family typewriter
+getFitnessTrace()
+\family default
+ we found that the implementation of 
+\family typewriter
+getFitnessTrace()
+\family default
+ always shows the best result found so far.
+ This means that for some instances every value in the trace is the same
+ as the best one.
+ This happens when the algorithm never finds a better solution after the
+ initial generated solution.
+ For our algorithms with a population or for algorithms which might select
+ a worse solution with a certain chance this leads to a situation where
+ the fitness trace does not represent what the algorithm is doing.
+ For those cases it is very difficult to see if an algorithm is stagnating
+ or climbing out of the current 
+\begin_inset Quotes eld
+\end_inset
+
+pit
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Subsubsection
 Operator choice
+\end_layout
+
+\begin_layout Standard
+First is the correspondence between the lower heuristics and their description
+ in the paper.
+ We found no way to tell which description belonged to which lower heuristic,
+ this made it very difficult to select a suitable heuristic.
+ In the end we resorted to trying every lower heuristic on each problem
+ to find the ones that atleast seem to make some improvements.
+ This made improvements on some problems but conceptually this seems a bad
+ idea.
+ A heuristic which seems to make no improvement in the first stages may
+ be really suited to finetune already good solutions.
+ It seems that the framework is mainly suited to be used with adaptive pursuit
+ type of algorithms where knowlegde of the underlying algoritms is not important.
+ 
 \end_layout
 
 \begin_layout Standard

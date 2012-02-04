@@ -278,6 +278,7 @@ public class ScoreKeeper {
 		
 		try 
 		{
+			//open output
 			latex = new PrintStream(REPORTDIR + "/bordacount-"+postfix+".tex");
 			csv = new PrintStream(REPORTDIR + "/runtrace-"+postfix+".csv");
 			
@@ -293,6 +294,7 @@ public class ScoreKeeper {
 				}
 			});
 			
+			//copy header for latex output
 			copyFileToStream("plots/report.tex", latex);
 			
 		} 
