@@ -3,6 +3,9 @@
 \begin_document
 \begin_header
 \textclass article
+\begin_preamble
+
+\end_preamble
 \use_default_options true
 \begin_modules
 sweave
@@ -87,14 +90,17 @@ echo=FALSE,center.fig=TRUE
 \end_layout
 
 \begin_layout Chunk
+
 <<RPackages,results=hide>>=
 \end_layout
 
 \begin_layout Chunk
+
 source("../plots/r.r")
 \end_layout
 
 \begin_layout Chunk
+
 @
 \end_layout
 
@@ -1321,7 +1327,7 @@ Borda Counts
 \end_layout
 
 \begin_layout Standard
-The first set of 
+The first type of experiments results in the 
 \end_layout
 
 \begin_layout Standard
@@ -1895,6 +1901,54 @@ end{tabular}
 
 \begin_layout Plain Layout
 Total
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Box Plots
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Chunk
+
+<<BoxPlots,fig=TRUE,width=6,height=8>>=
+\end_layout
+
+\begin_layout Chunk
+plotBoxPlots("../plots/final2.csv")
+\end_layout
+
+\begin_layout Chunk
+
+@
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Box plots of the second experiment type.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Boxplots"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
