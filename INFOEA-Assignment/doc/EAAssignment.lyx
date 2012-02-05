@@ -29,7 +29,16 @@ sweave
 \index_command default
 \paperfontsize default
 \spacing single
-\use_hyperref false
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
 \papersize default
 \use_geometry false
 \use_amsmath 1
@@ -78,17 +87,14 @@ echo=FALSE,center.fig=TRUE
 \end_layout
 
 \begin_layout Chunk
-
 <<RPackages,results=hide>>=
 \end_layout
 
 \begin_layout Chunk
-
 source("../plots/r.r")
 \end_layout
 
 \begin_layout Chunk
-
 @
 \end_layout
 
@@ -174,8 +180,8 @@ key "burke2009hyflex"
 \end_inset
 
  is used.
- This java framework contains a base for the algorithms and definitions and instances
- of the problems.
+ This java framework contains a base for the algorithms and definitions
+ and instances of the problems.
 \end_layout
 
 \begin_layout Subsection
@@ -1315,6 +1321,10 @@ Borda Counts
 \end_layout
 
 \begin_layout Standard
+The first set of 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float table
 wide false
 sideways false
@@ -1346,60 +1356,55 @@ status open
 
 
 \backslash
-begin{tabular}{ c | c | c | c | c}
-\end_layout
-
-\begin_layout Plain Layout
-
-MAX-SAT&ILS&GLS&AGLS&RHILS
+begin{tabular}{ c | c | c | c } MAX-SAT&ILS&GLS&AGLS
 \backslash
 
 \backslash
  
 \backslash
-hline Instance0&1&4&3&2
+hline Instance0&1&3&2
 \backslash
 
 \backslash
- Instance1&1&4&3&2
+ Instance1&1&3&2
 \backslash
 
 \backslash
- Instance2&1&3&4&2
+ Instance2&1&3&2
 \backslash
 
 \backslash
- Instance3&1&3&4&2
+ Instance3&1&3&2
 \backslash
 
 \backslash
- Instance4&1&3&4&2
+ Instance4&1&3&2
 \backslash
 
 \backslash
- Instance5&1&4&3&2
+ Instance5&1&2&3
 \backslash
 
 \backslash
- Instance6&1&4&3&2
+ Instance6&1&10&2
 \backslash
 
 \backslash
- Instance7&1&3&4&2
+ Instance7&1&2&3
 \backslash
 
 \backslash
- Instance8&1&3&4&2
+ Instance8&1&2&3
 \backslash
 
 \backslash
- Instance9&2&4&3&1
+ Instance9&1&2&3
 \backslash
 
 \backslash
  
 \backslash
-hline Total&11&35&35&19
+hline Total&10&33&24
 \backslash
 
 \backslash
@@ -1462,60 +1467,55 @@ status open
 
 
 \backslash
-begin{tabular}{ c | c | c | c | c}
-\end_layout
-
-\begin_layout Plain Layout
-
-Bin Packing&ILS&GLS&AGLS&RHILS
+begin{tabular}{ c | c | c | c } Bin Packing&ILS&GLS&AGLS
 \backslash
 
 \backslash
  
 \backslash
-hline Instance0&1&3&2&4
+hline Instance0&1&3&2
 \backslash
 
 \backslash
- Instance1&1&3&2&4
+ Instance1&1&2&3
 \backslash
 
 \backslash
- Instance2&3&1&2&4
+ Instance2&3&1&2
 \backslash
 
 \backslash
- Instance3&3&2&1&4
+ Instance3&1&2&3
 \backslash
 
 \backslash
- Instance4&1&3&2&4
+ Instance4&1&2&3
 \backslash
 
 \backslash
- Instance5&1&3&2&4
+ Instance5&1&3&2
 \backslash
 
 \backslash
- Instance6&1&3&2&4
+ Instance6&1&3&2
 \backslash
 
 \backslash
- Instance7&1&2&3&4
+ Instance7&1&2&3
 \backslash
 
 \backslash
- Instance8&3&2&1&4
+ Instance8&1&3&2
 \backslash
 
 \backslash
- Instance9&4&1&2&3
+ Instance9&1&3&2
 \backslash
 
 \backslash
  
 \backslash
-hline Total&19&23&19&39
+hline Total&12&24&24
 \backslash
 
 \backslash
@@ -1588,60 +1588,55 @@ status open
 
 
 \backslash
-begin{tabular}{ c | c | c | c | c} 
-\end_layout
-
-\begin_layout Plain Layout
-
-Personnel Sched.&ILS&GLS&AGLS&RHILS
+begin{tabular}{ c | c | c | c } Personnel Sched.&ILS&GLS&AGLS
 \backslash
 
 \backslash
  
 \backslash
-hline Instance0&1&3&2&4
+hline Instance0&1&3&2
 \backslash
 
 \backslash
- Instance1&1&3&2&4
+ Instance1&1&3&2
 \backslash
 
 \backslash
- Instance2&1&2&3&4
+ Instance2&1&2&3
 \backslash
 
 \backslash
- Instance3&1&3&2&4
+ Instance3&1&3&2
 \backslash
 
 \backslash
- Instance4&1&2&4&3
+ Instance4&1&2&3
 \backslash
 
 \backslash
- Instance5&2&3&1&4
+ Instance5&1&3&2
 \backslash
 
 \backslash
- Instance6&2&4&3&1
+ Instance6&1&3&2
 \backslash
 
 \backslash
- Instance7&2&3&4&1
+ Instance7&1&3&2
 \backslash
 
 \backslash
- Instance8&2&3&4&1
+ Instance8&1&3&2
 \backslash
 
 \backslash
- Instance9&3&2&10&1
+ Instance9&1&3&2
 \backslash
 
 \backslash
  
 \backslash
-hline Total&16&28&35&27
+hline Total&10&28&22
 \backslash
 
 \backslash
@@ -1704,60 +1699,55 @@ status open
 
 
 \backslash
-begin{tabular}{ c | c | c | c | c} 
-\end_layout
-
-\begin_layout Plain Layout
-
-Flow Shop&ILS&GLS&AGLS&RHILS
+begin{tabular}{ c | c | c | c } Flow Shop&ILS&GLS&AGLS
 \backslash
 
 \backslash
  
 \backslash
-hline Instance0&1&2&3&4
+hline Instance0&1&2&3
 \backslash
 
 \backslash
- Instance1&1&2&3&4
+ Instance1&1&3&2
 \backslash
 
 \backslash
- Instance2&1&2&3&4
+ Instance2&1&2&3
 \backslash
 
 \backslash
- Instance3&1&3&2&4
+ Instance3&1&2&3
 \backslash
 
 \backslash
- Instance4&2&3&1&4
+ Instance4&1&2&3
 \backslash
 
 \backslash
- Instance5&1&2&3&4
+ Instance5&1&3&2
 \backslash
 
 \backslash
- Instance6&1&3&2&4
+ Instance6&1&3&2
 \backslash
 
 \backslash
- Instance7&1&3&2&4
+ Instance7&1&3&2
 \backslash
 
 \backslash
- Instance8&1&2&3&4
+ Instance8&1&2&3
 \backslash
 
 \backslash
- Instance9&1&3&2&4
+ Instance9&1&3&2
 \backslash
 
 \backslash
  
 \backslash
-hline Total&11&25&24&40
+hline Total&10&25&25
 \backslash
 
 \backslash
@@ -1816,12 +1806,12 @@ status open
 
 
 \backslash
-begin{tabular}{ l | c | c | c | c} 
+begin{tabular}{ l | c | c | c } 
 \end_layout
 
 \begin_layout Plain Layout
 
-Domain&ILS&GLS&AGLS&RHILS
+Domain&ILS&GLS&AGLS
 \backslash
 
 \backslash
@@ -1830,7 +1820,9 @@ Domain&ILS&GLS&AGLS&RHILS
 
 \begin_layout Plain Layout
 
-MAX-SAT&11&35&35&19
+MAX-SAT&
+\backslash
+textbf{10}&33&24
 \backslash
 
 \backslash
@@ -1839,7 +1831,9 @@ MAX-SAT&11&35&35&19
 
 \begin_layout Plain Layout
 
-Bin Packing&19&23&19&39
+Bin Packing&
+\backslash
+textbf{12}&24&24
 \backslash
 
 \backslash
@@ -1848,7 +1842,9 @@ Bin Packing&19&23&19&39
 
 \begin_layout Plain Layout
 
-Personel Schedulling&16&28&35&27
+Personnel Scheduling&
+\backslash
+textbf{10}&28&22
 \backslash
 
 \backslash
@@ -1857,7 +1853,9 @@ Personel Schedulling&16&28&35&27
 
 \begin_layout Plain Layout
 
-Flow Shop&11&25&24&40
+Flow Shop &
+\backslash
+textbf{10}&25&25
 \backslash
 
 \backslash
@@ -1866,7 +1864,9 @@ Flow Shop&11&25&24&40
 
 \begin_layout Plain Layout
 
-Total&57&111&113&125
+Total&
+\backslash
+textbf{42}&110&95
 \backslash
 
 \backslash
