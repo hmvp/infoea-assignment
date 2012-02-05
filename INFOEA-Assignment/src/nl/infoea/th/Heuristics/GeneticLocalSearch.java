@@ -15,22 +15,20 @@ public class GeneticLocalSearch extends HyperHeuristic {
 	private int crossoverHeuristicToApply = -1;
 
 	/**
-	 * creates a new ExampleHyperHeuristic object with a random seed
+	 * creates a new GeneticLocalSearch object with a random seed
 	 */
 	public GeneticLocalSearch(long seed) {
 		super(seed);
 		// store solutions sorted by fitness, to easily get the worst solution.
 		solutions = new TreeMap<Double, Integer>();
 	}
-	
+
 	/**
-	 * creates a new ExampleHyperHeuristic object with a random seed
-	 * Uses parameters to test crossover heuristics
+	 * creates a new GeneticLocalSearch object with a random seed. Uses
+	 * parameters to test crossover heuristics
 	 */
 	public GeneticLocalSearch(long seed, int heuristic) {
-		super(seed);
-		// store solutions sorted by fitness, to easily get the worst solution.
-		solutions = new TreeMap<Double, Integer>();
+		this(seed);
 		crossoverHeuristicToApply = heuristic;
 	}
 
@@ -58,21 +56,22 @@ public class GeneticLocalSearch extends HyperHeuristic {
 		}
 
 		// get Heuristics to apply
-		if (crossoverHeuristicToApply  == -1)
+		if (crossoverHeuristicToApply == -1)
 			crossoverHeuristicToApply = Util.getCrossoverHeuristic(problem);
-		
+
 		int mutationHeuristicToApply = Util.getMutationHeuristic(problem);
-		
+
 		if (localSearchHeuristicToApply == -1)
 			localSearchHeuristicToApply = Util.getLocalSearchHeuristic(problem);
 
-		
 		// the main loop of any hyper-heuristic, which checks if the time limit
 		// has been reached
 		while (!hasTimeExpired()) {
 			int parent1Location = rng.nextInt(populationSize);
-			//make sure parent2 is not the same
-			int parent2Location = (parent1Location + rng.nextInt(populationSize-1)) % populationSize;
+			// make sure parent2 is not the same
+			int parent2Location =
+					(parent1Location + rng.nextInt(populationSize - 1))
+							% populationSize;
 
 			// .5 chance to do crossover
 			if (rng.nextBoolean()) {
@@ -94,18 +93,17 @@ public class GeneticLocalSearch extends HyperHeuristic {
 			// the main loop and check if the time has expired
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param problem
 	 * @param outcome
 	 */
-	private void process(ProblemDomain problem, boolean allowWorse) 
-	{
+	private void process(ProblemDomain problem, boolean allowWorse) {
 		double outcome =
 				problem.applyHeuristic(localSearchHeuristicToApply,
 						workingMemoryLocation, workingMemoryLocation);
-		
+
 		// replace worst solution if better
 		// last in solutions is worst, since problem is minimum based
 		double worstSolutionKey = solutions.lastKey();

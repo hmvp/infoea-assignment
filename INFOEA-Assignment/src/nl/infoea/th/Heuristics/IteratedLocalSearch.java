@@ -90,14 +90,9 @@ public class IteratedLocalSearch extends HyperHeuristic
 	 *            the problem domain to be solved
 	 */
 	public void solve(ProblemDomain problem) {
-
-		// it is often a good idea to record the number of low level heuristics,
-		// as this changes depending on the problem domain
-		// int numberOfHeuristics = problem.getNumberOfHeuristics();
-
 		problem.setMemorySize(2);
 
-		// initialise the solution at index 0 in the solution memory array
+		// Initialize the solution at index 0 in the solution memory array
 		problem.initialiseSolution(0);
 
 		double currentObjectiveFunctionValues = Double.POSITIVE_INFINITY;

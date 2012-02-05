@@ -97,7 +97,7 @@ public class AdaptiveGeneticLocalSearch extends HyperHeuristic {
 		// the main loop of any hyper-heuristic, which checks if the time limit
 		// has been reached
 		while (!hasTimeExpired()) {
-			// Proportinally select Operator
+			// Proportionally select Operator
 			AdaptiveChoice selectedHeuristic = proportionalSelectOperator(Pt);
 
 			int parent1Location = rng.nextInt(populationSize);
@@ -106,7 +106,7 @@ public class AdaptiveGeneticLocalSearch extends HyperHeuristic {
 					(parent1Location + rng.nextInt(populationSize - 1))
 							% populationSize;
 
-			// .5 chance to do crossover
+			// Execute the selected operator
 			if (selectedHeuristic == AdaptiveChoice.Crossover) {
 				problem.applyHeuristic(crossoverHeuristicToApply,
 						parent1Location, parent2Location, workingMemoryLocation);
