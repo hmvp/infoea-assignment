@@ -1370,8 +1370,8 @@ Runs
 \end_layout
 
 \begin_layout Standard
-To get an indication of the perfomance of the algorithms two types of experiment
-s are run:
+To get an indication of the performance of the algorithms two types of experimen
+ts are run:
 \end_layout
 
 \begin_layout Enumerate
@@ -2124,13 +2124,29 @@ The Personnel Scheduling problem result in a couple of instances where the
 
 \begin_layout Standard
 With the Flow Shop problem ILS finds better solutions more quick.
- It would be interesting to see what happends here if the all the algorihtms
+ It would be interesting to see what happens here if the all the algorithms
  would get more time to run.
  The plots suggest that a optimum is still improving.
 \end_layout
 
 \begin_layout Subsection
 Box Plots
+\end_layout
+
+\begin_layout Standard
+Similar insights can be gained by looking at the box plots from second experimen
+t
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Boxplots"
+
+\end_inset
+
+.
+ Here we can also see the difference in performance.
+ Note that these box plots are obtained by running every instance 10 times
+ instead of 5.
+ This gives supports the results gained by the first experiment.
 \end_layout
 
 \begin_layout Standard
@@ -2159,8 +2175,15 @@ plotBoxPlots("../plots/BoxPlots.csv")
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Performance of different Hyper Heuristics on the first instances of each
- domain.
+Performance of different Hyper Heuristics on 10 runs of the first instances
+ of each domain.
+ Shown here are the box plots based on 
+\family typewriter
+getFitnessTrace()
+\family default
+.
+ Overlain is a representation of the actual data points.
+ The black dots are outliers.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:Boxplots"
@@ -2180,8 +2203,37 @@ name "fig:Boxplots"
 
 \end_layout
 
+\begin_layout Standard
+Interesting to see is that the difference between AGLS and GLS is minimal
+ and that GLS is almost always better.
+ Both in finding the best solution as in the speed at which it converges
+ at the solution.
+ 
+\end_layout
+
 \begin_layout Section
 Conclusion
+\end_layout
+
+\begin_layout Standard
+We were quite surprised by the results since we expected AGLS to outperform
+ ILS on at least some domains.
+ In the original paper there was a significant difference between the domains
+ in terms of heuristic performance.
+ In our experiments we did not see such a difference.
+ ILS outperforms both other algorithms with ease.
+ 
+\end_layout
+
+\begin_layout Standard
+We a saw no significant difference between both genetic algorithms although
+ we expected to AGLS perform better than GLS.
+ GLS is very similar to AGLS but it uses uniform random selection of the
+ type of operator used.
+ This lead to the conclusion that the adaptive pursuit mechanism used cannot
+ reliably predict which operator to choose.
+ We suspect that this originates from a mismatch between the lower heuristics
+ used and the problem domain.
 \end_layout
 
 \begin_layout Subsection
@@ -2253,14 +2305,15 @@ First is the correspondence between the lower heuristics and their description
  We found no way to tell which description belonged to which lower heuristic,
  this made it very difficult to select a suitable heuristic.
  In the end we resorted to trying every lower heuristic on each problem
- to find the ones that atleast seem to make some improvements.
+ to find the ones that at least seem to make some improvements.
  This made improvements on some problems but conceptually this seems a bad
  idea.
  A heuristic which seems to make no improvement in the first stages may
- be really suited to finetune already good solutions.
+ be really suited to fine tune already good solutions.
  It seems that the framework is mainly suited to be used with adaptive pursuit
- type of algorithms where knowlegde of the underlying algoritms is not important.
- 
+ type of algorithms where knowledge of the underlying algorithms is not
+ important.
+ Poor heuristic choice might also be the case why our results are unexpected
 \end_layout
 
 \begin_layout Standard
@@ -2287,17 +2340,14 @@ name "sec:Plots-of-the"
 \end_layout
 
 \begin_layout Chunk
-
 <<1SAT,fig=TRUE,width=8,height=12>>=
 \end_layout
 
 \begin_layout Chunk
-
 grid.draw(plotInstances("SAT", "../plots/final1.csv"))
 \end_layout
 
 \begin_layout Chunk
-
 @
 \end_layout
 
@@ -2306,17 +2356,14 @@ grid.draw(plotInstances("SAT", "../plots/final1.csv"))
 \end_layout
 
 \begin_layout Chunk
-
 <<1BinPacking,fig=TRUE,width=8,height=12>>=
 \end_layout
 
 \begin_layout Chunk
-
 grid.draw(plotInstances("BinPacking", "../plots/final1.csv"))
 \end_layout
 
 \begin_layout Chunk
-
 @
 \end_layout
 
@@ -2325,17 +2372,14 @@ grid.draw(plotInstances("BinPacking", "../plots/final1.csv"))
 \end_layout
 
 \begin_layout Chunk
-
 <<1PersonnelScheduling,fig=TRUE,width=8,height=12>>=
 \end_layout
 
 \begin_layout Chunk
-
 grid.draw(plotInstances("PersonnelScheduling", "../plots/final1.csv"))
 \end_layout
 
 \begin_layout Chunk
-
 @
 \end_layout
 
@@ -2344,17 +2388,14 @@ grid.draw(plotInstances("PersonnelScheduling", "../plots/final1.csv"))
 \end_layout
 
 \begin_layout Chunk
-
 <<1FlowShop,fig=TRUE,width=8,height=12>>=
 \end_layout
 
 \begin_layout Chunk
-
 grid.draw(plotInstances("FlowShop", "../plots/final1.csv"))
 \end_layout
 
 \begin_layout Chunk
-
 @
 \end_layout
 
