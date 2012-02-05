@@ -90,17 +90,14 @@ echo=FALSE,center.fig=TRUE
 \end_layout
 
 \begin_layout Chunk
-
 <<RPackages,results=hide>>=
 \end_layout
 
 \begin_layout Chunk
-
 source("../plots/r.r")
 \end_layout
 
 \begin_layout Chunk
-
 @
 \end_layout
 
@@ -203,6 +200,7 @@ Iterated Local Search begins with initializing a random first solution.
 
 \begin_layout Standard
 \begin_inset Float algorithm
+placement H
 wide false
 sideways false
 status open
@@ -349,6 +347,7 @@ crossover
 
 \begin_layout Standard
 \begin_inset Float algorithm
+placement H
 wide false
 sideways false
 status open
@@ -711,6 +710,7 @@ function updates the
 
 \begin_layout Standard
 \begin_inset Float algorithm
+placement H
 wide false
 sideways false
 status open
@@ -1035,6 +1035,20 @@ wide false
 sideways false
 status open
 
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "80page%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
 \begin_layout Chunk
 
 <<FlowShopMutation,fig=TRUE,width=6,height=8>>=
@@ -1053,6 +1067,11 @@ grid.draw(plotInstances("FlowShop", "../plots/FlowShopMutations.csv"))
 \begin_layout Chunk
 
 @
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -1090,6 +1109,14 @@ After finding this we ran some short test for most of the combinations of
 \end_layout
 
 \begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="4">
 <features tabularvalignment="middle">
@@ -1294,6 +1321,27 @@ Flow Shop
 
 \end_layout
 
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Index number of lower heuristics used for each domain
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Results
 \end_layout
@@ -1332,6 +1380,7 @@ The first type of experiments results in the
 
 \begin_layout Standard
 \begin_inset Float table
+placement H
 wide false
 sideways false
 status open
@@ -1564,6 +1613,7 @@ Bin Packing
 
 \begin_layout Standard
 \begin_inset Float table
+placement H
 wide false
 sideways false
 status open
@@ -1796,6 +1846,7 @@ Flow Shop
 
 \begin_layout Standard
 \begin_inset Float table
+placement H
 wide false
 sideways false
 status open
@@ -1933,6 +1984,7 @@ boxplots
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
