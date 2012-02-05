@@ -2227,13 +2227,20 @@ We were quite surprised by the results since we expected AGLS to outperform
 
 \begin_layout Standard
 We a saw no significant difference between both genetic algorithms although
- we expected to AGLS perform better than GLS.
+ we expected AGLS to perform much better than GLS.
  GLS is very similar to AGLS but it uses uniform random selection of the
  type of operator used.
- This lead to the conclusion that the adaptive pursuit mechanism used cannot
+ This leads to the conclusion that the adaptive pursuit mechanism used cannot
  reliably predict which operator to choose.
  We suspect that this originates from a mismatch between the lower heuristics
  used and the problem domain.
+\end_layout
+
+\begin_layout Standard
+The variant of AGLS described in this report adaptively selects the type
+ of the operator to use.
+ It might be interesting to see a different variant of AGLS that adaptively
+ selects which crossover and/or mutation operator to use.
 \end_layout
 
 \begin_layout Subsection
