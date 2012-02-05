@@ -1392,7 +1392,7 @@ hline Instance0&1&3&2
 \backslash
 
 \backslash
- Instance6&1&10&2
+ Instance6&1&2&2
 \backslash
 
 \backslash
@@ -1410,7 +1410,7 @@ hline Instance0&1&3&2
 \backslash
  
 \backslash
-hline Total&10&33&24
+hline Total&10&25&24
 \backslash
 
 \backslash
@@ -1826,9 +1826,16 @@ Domain&ILS&GLS&AGLS
 
 \begin_layout Plain Layout
 
+
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
 MAX-SAT&
 \backslash
-textbf{10}&33&24
+textbf{10}&25&24
 \backslash
 
 \backslash
@@ -1870,9 +1877,16 @@ textbf{10}&25&25
 
 \begin_layout Plain Layout
 
+
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
 Total&
 \backslash
-textbf{42}&110&95
+textbf{42}&102&95
 \backslash
 
 \backslash
@@ -1914,7 +1928,7 @@ Total
 \end_layout
 
 \begin_layout Subsection
-Box Plots
+boxplots
 \end_layout
 
 \begin_layout Standard
@@ -1923,13 +1937,33 @@ wide false
 sideways false
 status open
 
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "80page%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
 \begin_layout Chunk
 
 <<BoxPlots,fig=TRUE,width=6,height=8>>=
 \end_layout
 
 \begin_layout Chunk
-plotBoxPlots("../plots/final2.csv")
+
+options(width=60) 
+\end_layout
+
+\begin_layout Chunk
+
+plotBoxPlots("../plots/BoxPlots.csv")
 \end_layout
 
 \begin_layout Chunk
@@ -1937,11 +1971,17 @@ plotBoxPlots("../plots/final2.csv")
 @
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Plain Layout
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Box plots of the second experiment type.
+Performance of different Hyper Heuristics on the first instances of each
+ domain.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:Boxplots"
