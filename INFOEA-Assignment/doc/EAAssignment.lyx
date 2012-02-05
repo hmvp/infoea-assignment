@@ -1054,20 +1054,6 @@ wide false
 sideways false
 status open
 
-\begin_layout Plain Layout
-\begin_inset Box Frameless
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "80page%"
-special "none"
-height "1in"
-height_special "totalheight"
-status open
-
 \begin_layout Chunk
 
 <<FlowShopMutation,fig=TRUE,width=6,height=8>>=
@@ -1086,11 +1072,6 @@ grid.draw(plotInstances("FlowShop", "../plots/FlowShopMutations.csv"))
 \begin_layout Chunk
 
 @
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Plain Layout
