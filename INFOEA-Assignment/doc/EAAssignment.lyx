@@ -108,14 +108,17 @@ textwidth}
 \end_layout
 
 \begin_layout Chunk
+
 <<RPackages,results=hide>>=
 \end_layout
 
 \begin_layout Chunk
+
 source("../plots/r.r")
 \end_layout
 
 \begin_layout Chunk
+
 @
 \end_layout
 
@@ -124,7 +127,11 @@ A Comparison of ILS, GLS and AGLS
 \end_layout
 
 \begin_layout Author
-Hiram van Paassen 
+Hiram van Paassen
+\begin_inset Newline newline
+\end_inset
+
+#3034364 
 \begin_inset ERT
 status open
 
@@ -138,6 +145,10 @@ and
 \end_inset
 
  Tim Soethout
+\begin_inset Newline newline
+\end_inset
+
+#3117901
 \end_layout
 
 \begin_layout Verse
@@ -2327,14 +2338,17 @@ name "sec:Plots-of-the"
 \end_layout
 
 \begin_layout Chunk
+
 <<1SAT,fig=TRUE,width=8,height=12>>=
 \end_layout
 
 \begin_layout Chunk
+
 grid.draw(plotInstances("SAT", "../plots/final1.csv"))
 \end_layout
 
 \begin_layout Chunk
+
 @
 \end_layout
 
@@ -2343,14 +2357,17 @@ grid.draw(plotInstances("SAT", "../plots/final1.csv"))
 \end_layout
 
 \begin_layout Chunk
+
 <<1BinPacking,fig=TRUE,width=8,height=12>>=
 \end_layout
 
 \begin_layout Chunk
+
 grid.draw(plotInstances("BinPacking", "../plots/final1.csv"))
 \end_layout
 
 \begin_layout Chunk
+
 @
 \end_layout
 
@@ -2359,14 +2376,17 @@ grid.draw(plotInstances("BinPacking", "../plots/final1.csv"))
 \end_layout
 
 \begin_layout Chunk
+
 <<1PersonnelScheduling,fig=TRUE,width=8,height=12>>=
 \end_layout
 
 \begin_layout Chunk
+
 grid.draw(plotInstances("PersonnelScheduling", "../plots/final1.csv"))
 \end_layout
 
 \begin_layout Chunk
+
 @
 \end_layout
 
@@ -2375,14 +2395,17 @@ grid.draw(plotInstances("PersonnelScheduling", "../plots/final1.csv"))
 \end_layout
 
 \begin_layout Chunk
+
 <<1FlowShop,fig=TRUE,width=8,height=12>>=
 \end_layout
 
 \begin_layout Chunk
+
 grid.draw(plotInstances("FlowShop", "../plots/final1.csv"))
 \end_layout
 
 \begin_layout Chunk
+
 @
 \end_layout
 
